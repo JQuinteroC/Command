@@ -1,5 +1,4 @@
-# Observador y Estado
-Aplicando los modelos state y observer, crear un sistema de control de población con uso de hitbox y observer, e integración de estados en el manejo del control de los personajes.
+# Command
 
 Jose Quintero
 
