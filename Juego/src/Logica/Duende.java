@@ -13,7 +13,7 @@ public class Duende extends Personaje {
         super.setHilo(24, 18, 15, 12, 50);
         super.ancho = 587/2;
         super.alto = 556/2;
-        super.relacion = false;
+        super.isMago = false;
         super.caminar = new ImageIcon[24];
         super.saltar = new ImageIcon[18];
         super.morir = new ImageIcon[15];

@@ -3,8 +3,6 @@ package Logica;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -28,12 +26,14 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     int desplazamientoVertical = 0;
     int desplazamientoHorizontal = 0;
     Rectangle hitbox;
-    boolean relacion = false; // Variable solo para mantener el aspecto en las animaciónes del Mago
+    boolean isMago = false; // Variable solo para mantener el aspecto en las animaciónes del Mago
     boolean animar = false; // Controla la ejecución de la animación
     static JPanel panel = null;
     public Thread hilo;
-    protected EstrategiaControl control;
-    protected boolean tipoControl;
+    protected EstrategiaControl control;   /// Borrar
+    protected boolean tipoControl;         /// Borrar
+    public int vidaRest = 60;
+    public boolean seleccionable;
 
     // CONSTRUCTOR
     public Personaje() {
@@ -47,14 +47,14 @@ public class Personaje extends JComponent implements Cloneable, Composite {
         numero = 0;
         ancho = 0;
         alto = 0;
-        relacion = false;
+        isMago = false;
         panel = null;
         tipoControl = true;
     }
 
     // SET AND GET
-    public boolean isRelacion() {
-        return relacion;
+    public boolean isIsMago() {
+        return isMago;
     }
 
     public void setDesplazamientoVertical(int desplazamiento) {
@@ -186,7 +186,7 @@ public class Personaje extends JComponent implements Cloneable, Composite {
         Personaje PersonajeClonado = null;
         try {
             PersonajeClonado = (Personaje) super.clone();
-            if (PersonajeClonado.isRelacion()) {
+            if (PersonajeClonado.isIsMago()) {
                 PersonajeClonado.setHilo(5, 5, 5, 5, 130);
             } else {
                 PersonajeClonado.setHilo(24, 18, 15, 12, 50);
@@ -206,21 +206,21 @@ public class Personaje extends JComponent implements Cloneable, Composite {
                     g.drawImage(caminar[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
                     break;
                 case 1:
-                    if (relacion) {
+                    if (isMago) {
                         g.drawImage(saltar[numero].getImage(), 50 + desplazamientoHorizontal, -42 + desplazamientoVertical, ancho - 17, alto + 30, null);
                     } else {
                         g.drawImage(saltar[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
                     }
                     break;
                 case 2:
-                    if (relacion) {
+                    if (isMago) {
                         g.drawImage(morir[numero].getImage(), 65 + desplazamientoHorizontal, 20 + desplazamientoVertical, ancho - 38, alto - 18, null);
                     } else {
                         g.drawImage(morir[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
                     }
                     break;
                 case 3:
-                    if (relacion) {
+                    if (isMago) {
                         g.drawImage(atacar[numero].getImage(), 50 + desplazamientoHorizontal, -30 + desplazamientoVertical, ancho + 150, alto + 55, null);
                     } else {
                         g.drawImage(atacar[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
@@ -310,7 +310,15 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     }
 
     public void setHitbox(int x, int y, int ancho, int alto) {
-        hitbox = new Rectangle(x + (ancho / 2) - 10, y + (alto / 4), (ancho / 2) - 40, (alto / 2) + 25);
+        if(isMago && this.ancho < 0){
+            hitbox = new Rectangle(x + (ancho / 2) - 235, y + (alto / 4) - 35, (ancho / 2) + 65, (alto / 2) + 75);
+        } else if (isMago) {
+            hitbox = new Rectangle(x + (ancho / 2) - 45, y + (alto / 4) - 35, (ancho / 2) + 65, (alto / 2) + 75);
+        } else if(this.ancho < 0) {
+            hitbox = new Rectangle(x + (ancho / 2) - 300, y + (alto / 4), (ancho / 2) - 40, (alto / 2) + 25);
+        } else{
+            hitbox = new Rectangle(x + (ancho / 2) - 10, y + (alto / 4), (ancho / 2) - 40, (alto / 2) + 25);
+        }
     }
 
     @Override

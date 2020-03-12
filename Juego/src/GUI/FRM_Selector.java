@@ -163,26 +163,38 @@ public class FRM_Selector extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblMagoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMagoMouseClicked
+        // Jugador 1
         Builder build = new Builder();
         build.setConstructor(new ConstructorMago());
         build.CrearPersonaje();
+        // Huevo
         Builder build2 = new Builder();
         build2.setConstructor(new ConstructorHuevo());
         build2.CrearPersonaje();
-        FRM_Visor ventana = new FRM_Visor(build.getPersonaje(),build2.getPersonaje(),Cancion.getSelectedIndex());
+        // Jugador 2        
+        Builder build3 = new Builder();
+        build3.setConstructor(new ConstructorDuende());
+        build3.CrearPersonaje();
+        FRM_Visor ventana = new FRM_Visor(build.getPersonaje(),build2.getPersonaje(), build3.getPersonaje(),Cancion.getSelectedIndex());
         ventana.setVisible(true);
         this.setVisible(false);
         dispose();
     }//GEN-LAST:event_lblMagoMouseClicked
 
     private void lblDuendeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDuendeMouseClicked
+        // Jugador 1
         Builder build = new Builder();
         build.setConstructor(new ConstructorDuende());
         build.CrearPersonaje();
+        // Huevo
         Builder build2 = new Builder();
         build2.setConstructor(new ConstructorHuevo());
         build2.CrearPersonaje();
-        FRM_Visor ventana = new FRM_Visor(build.getPersonaje(),build2.getPersonaje(),Cancion.getSelectedIndex());
+        // Jugador 2        
+        Builder build3 = new Builder();
+        build3.setConstructor(new ConstructorMago());
+        build3.CrearPersonaje();
+        FRM_Visor ventana = new FRM_Visor(build.getPersonaje(),build2.getPersonaje(), build3.getPersonaje(),Cancion.getSelectedIndex());
         ventana.setVisible(true);
         this.setVisible(false);
         dispose();

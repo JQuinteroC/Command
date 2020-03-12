@@ -18,7 +18,7 @@ public class Mascota extends Decorador {
 
     public Mascota(Personaje per, JPanel panel) throws IOException {
         super(per, panel);
-        if (per.isRelacion()) { //MAGO
+        if (per.isIsMago()) { //MAGO
             setHilo(5, 5, 5, 5, 130);
         } else {  // OGRO
             setHilo(24, 18, 15, 12, 50);
@@ -189,7 +189,7 @@ public class Mascota extends Decorador {
     }
 
     public void dibujarMascota(Personaje per, ImageIcon img, Graphics g) {
-        if (per.isRelacion()) {
+        if (per.isIsMago()) {
             g.drawImage(img.getImage(), -50 + per.desplazamientoHorizontal, 50 + per.desplazamientoVertical, img.getIconWidth() / 3, img.getIconHeight() / 3, null);
         } else {
             g.drawImage(img.getImage(), 35 + per.desplazamientoHorizontal, 115 + per.desplazamientoVertical, img.getIconWidth() / 3, img.getIconHeight() / 3, null);

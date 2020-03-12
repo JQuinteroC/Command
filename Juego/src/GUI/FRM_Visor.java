@@ -2,7 +2,6 @@ package GUI;
 
 import Logica.Mascota;
 import Logica.Personaje;
-import Logica.Poblacion;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
@@ -23,45 +22,55 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
     Reproductor[] repro = new Reproductor[2];
     Thread musica;
 
-    public FRM_Visor(Personaje p, Personaje huevo, int cancion) {
+    public FRM_Visor(Personaje p1, Personaje huevo, Personaje  p2, int cancion) {
 
         // Instancia de la ventana
         initComponents();
         super.setLocationRelativeTo(null);
 
         // Configuración del personaje y grupo
-        p.setPanel(panel);
-        this.personajes.add(p.clone());
-        this.personajes.add(p.clone());
-        this.personajes.add(p);
-        this.personajes.add(p.clone());
-        this.personajes.get(1).setDesplazamientoVertical(45);
-        this.personajes.get(1).setDesplazamientoHorizontal(460);
-        this.personajes.get(1).setHitbox(460, 45, this.personajes.get(1).getAncho(), this.personajes.get(1).getAlto());
-        this.personajes.get(2).setDesplazamientoVertical(-10);
-        this.personajes.get(2).setDesplazamientoHorizontal(530);
-        this.personajes.get(2).setHitbox(530, -10, this.personajes.get(2).getAncho(), this.personajes.get(2).getAlto());
-        this.personajes.get(3).setDesplazamientoVertical(-10);
-        this.personajes.get(3).setDesplazamientoHorizontal(390);
-        this.personajes.get(3).setHitbox(390, -10, this.personajes.get(3).getAncho(), this.personajes.get(3).getAlto());
-        panel.add(this.personajes.get(0));
-        panel.add(this.personajes.get(1));
-        panel.add(this.personajes.get(2));
-        panel.add(this.personajes.get(3));
+        p1.setPanel(panel);
+        personajes.add(p1);
+        personajes.add(p1.clone());
+        personajes.get(0).setDesplazamientoVertical(300);
+        personajes.get(0).setDesplazamientoHorizontal(60);
+        personajes.get(0).setHitbox(60, 300, personajes.get(0).getAncho(), personajes.get(0).getAlto());
+        personajes.get(1).setDesplazamientoVertical(280);
+        personajes.get(1).setDesplazamientoHorizontal(250);
+        personajes.get(1).setHitbox(250, 280, personajes.get(1).getAncho(), personajes.get(1).getAlto());
+        panel.add(personajes.get(0));
+        panel.add(personajes.get(1));
 
+        
+        // Configuración del personaje y grupo
+        p2.setPanel(panel);
+        personajes.add(p2);
+        personajes.add(p2.clone());
+        personajes.get(2).setDesplazamientoVertical(280);
+        personajes.get(2).setDesplazamientoHorizontal(890);
+        personajes.get(2).setAncho(-personajes.get(2).getAncho());
+        personajes.get(2).setHitbox(890, 280, -personajes.get(2).getAncho(), personajes.get(2).getAlto());
+        
+        personajes.get(3).setDesplazamientoVertical(300);
+        personajes.get(3).setDesplazamientoHorizontal(1080);
+        personajes.get(3).setAncho(-personajes.get(3).getAncho());
+        personajes.get(3).setHitbox(1080, 300, -personajes.get(3).getAncho(), personajes.get(3).getAlto());
+        panel.add(personajes.get(2));
+        panel.add(personajes.get(3));
+        
         //se crean las poblaciones del patron Composite
-        grupos.grupo.addPersonaje(this.personajes.get(0));
-        grupos.grupo2.addPersonaje(this.personajes.get(1));
-        grupos.grupo2.addPersonaje(this.personajes.get(2));
-        grupos.grupo2.addPersonaje(this.personajes.get(3));
+        grupos.grupo1.addPersonaje(personajes.get(0));
+        grupos.grupo1.addPersonaje(personajes.get(1));
+        grupos.grupo2.addPersonaje(personajes.get(2));
+        grupos.grupo2.addPersonaje(personajes.get(3));
 
         //Metiendo al huevito
         huevo.setPanel(panel);
-        this.huevos.add(huevo);
-        this.huevos.get(0).setDesplazamientoVertical(300);
-        this.huevos.get(0).setDesplazamientoHorizontal(480);
-        this.huevos.get(0).setHitbox(480 - 91, 300 - 40, this.huevos.get(0).getAncho() + 192, (this.huevos.get(0).getAlto() / 2) + 125);
-        panel.add(this.huevos.get(0));
+        huevos.add(huevo);
+        huevos.get(0).setDesplazamientoVertical(300);
+        huevos.get(0).setDesplazamientoHorizontal(480);
+        huevos.get(0).setHitbox(480 - 91, 300 - 40, huevos.get(0).getAncho() + 192, (huevos.get(0).getAlto() / 2) + 125);
+        panel.add(huevos.get(0));
 
         // Integración del listener 
         addKeyListener(this);
@@ -77,7 +86,6 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         repro[0].setSuccessor(repro[1]);
         repro[0].cancion = cancion;
         repro[0].start();
-
     }
 
     @Override
@@ -90,6 +98,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         }
     }
 
+    @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyChar()) {
             case 'q':
@@ -104,15 +113,17 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                 // Se interrumpe el hilo de musica
                 repro[0].stop();
                 repro[1].stop();
+                personajes.clear();
+                huevos.clear();
                 this.dispose();
                 break;
             case '+':
                 boolean agregado = false;
                 for (int i = 0; i < 4; i++) {
-                    if (grupos.grupo.isHere(personajes.get(i))) {
+                    if (grupos.grupo1.isHere(personajes.get(i))) {
                     } else {
                         grupos.grupo2.deletePerson(personajes.get(i));
-                        grupos.grupo.addPersonaje(this.personajes.get(i));
+                        grupos.grupo1.addPersonaje(personajes.get(i));
                         agregado = true;
                         i = 10;
                     }
@@ -127,8 +138,8 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                 for (int i = 3; i >= 0; i--) {
                     if (grupos.grupo2.isHere(personajes.get(i))) {
                     } else {
-                        grupos.grupo.deletePerson(personajes.get(i));
-                        grupos.grupo2.addPersonaje(this.personajes.get(i));
+                        grupos.grupo1.deletePerson(personajes.get(i));
+                        grupos.grupo2.addPersonaje(personajes.get(i));
                         agregado = true;
                         i = -1;
                     }
@@ -138,10 +149,10 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                 }
                 break;
             case 10:
-                grupos.grupo.cambiarControl();
+                grupos.grupo1.cambiarControl();
                 break;
             default:
-                grupos.grupo.operar(e);
+                grupos.grupo1.operar(e);
                 break;
         }
         for (int i = 0; i < personajes.size(); i++) {
@@ -153,8 +164,8 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                     huevos.remove(j);
                     personajes.get(i).interrumpir();
                     panel.remove(personajes.get(i));
-                    if (grupos.grupo.isHere(personajes.get(i))) {
-                        grupos.grupo.deletePerson(personajes.get(i));
+                    if (grupos.grupo1.isHere(personajes.get(i))) {
+                        grupos.grupo1.deletePerson(personajes.get(i));
                         team = 1;
                     } else {
                         grupos.grupo2.deletePerson(personajes.get(i));
@@ -163,10 +174,9 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                     Personaje mas;
                     try {
                         mas = new Mascota(personajes.get(i), panel);
-                        //mas.decorado=true;
                         personajes.set(i, mas);
                         if (team == 1) {
-                            grupos.grupo.addPersonaje(mas);
+                            grupos.grupo1.addPersonaje(mas);
                         } else {
                             grupos.grupo2.addPersonaje(mas);
                         }
