@@ -206,22 +206,28 @@ public class Personaje extends JComponent implements Cloneable, Composite {
                     g.drawImage(caminar[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
                     break;
                 case 1:
-                    if (isMago) {
-                        g.drawImage(saltar[numero].getImage(), 50 + desplazamientoHorizontal, -42 + desplazamientoVertical, ancho - 17, alto + 30, null);
+                    if (isMago && this.ancho < 0) {
+                        g.drawImage(saltar[numero].getImage(), 55 + desplazamientoHorizontal, -38 + desplazamientoVertical, ancho + 5 , alto + 30, null);
+                    } else if (isMago) {
+                        g.drawImage(saltar[numero].getImage(), 50 + desplazamientoHorizontal, -38 + desplazamientoVertical, ancho - 8, alto + 30, null);
                     } else {
                         g.drawImage(saltar[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
                     }
                     break;
                 case 2:
-                    if (isMago) {
-                        g.drawImage(morir[numero].getImage(), 65 + desplazamientoHorizontal, 20 + desplazamientoVertical, ancho - 38, alto - 18, null);
+                    if (isMago && this.ancho < 0) {
+                        g.drawImage(morir[numero].getImage(), 55 + desplazamientoHorizontal, 2 + desplazamientoVertical, ancho + 10, alto - 2, null);
+                    } else if (isMago) {
+                        g.drawImage(morir[numero].getImage(), 55 + desplazamientoHorizontal, 2 + desplazamientoVertical, ancho - 8, alto - 2, null);
                     } else {
                         g.drawImage(morir[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
                     }
                     break;
                 case 3:
-                    if (isMago) {
-                        g.drawImage(atacar[numero].getImage(), 50 + desplazamientoHorizontal, -30 + desplazamientoVertical, ancho + 150, alto + 55, null);
+                    if (isMago && this.ancho < 0) {
+                        g.drawImage(atacar[numero].getImage(), 55 + desplazamientoHorizontal, -25 + desplazamientoVertical, ancho - 140, alto + 45, null);
+                    } else if (isMago) {
+                        g.drawImage(atacar[numero].getImage(), 50 + desplazamientoHorizontal, -25 + desplazamientoVertical, ancho + 150, alto + 45, null);
                     } else {
                         g.drawImage(atacar[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
                     }
@@ -310,13 +316,13 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     }
 
     public void setHitbox(int x, int y, int ancho, int alto) {
-        if(isMago && this.ancho < 0){
+        if (isMago && this.ancho < 0) {
             hitbox = new Rectangle(x + (ancho / 2) - 235, y + (alto / 4) - 35, (ancho / 2) + 65, (alto / 2) + 75);
         } else if (isMago) {
             hitbox = new Rectangle(x + (ancho / 2) - 45, y + (alto / 4) - 35, (ancho / 2) + 65, (alto / 2) + 75);
-        } else if(this.ancho < 0) {
+        } else if (this.ancho < 0) {
             hitbox = new Rectangle(x + (ancho / 2) - 300, y + (alto / 4), (ancho / 2) - 40, (alto / 2) + 25);
-        } else{
+        } else {
             hitbox = new Rectangle(x + (ancho / 2) - 10, y + (alto / 4), (ancho / 2) - 40, (alto / 2) + 25);
         }
     }

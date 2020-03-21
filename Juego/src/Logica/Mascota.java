@@ -162,7 +162,7 @@ public class Mascota extends Decorador {
             control.operar();
         }
     }
-   
+
     @Override
     public int getAncho() {
         return personaje.ancho;
@@ -189,10 +189,15 @@ public class Mascota extends Decorador {
     }
 
     public void dibujarMascota(Personaje per, ImageIcon img, Graphics g) {
-        if (per.isIsMago()) {
+        if (per.isMago && per.ancho < 0) {
+            g.drawImage(img.getImage(), -5 + per.desplazamientoHorizontal, 50 + per.desplazamientoVertical, img.getIconWidth() / 3, img.getIconHeight() / 3, null);
+        } else if (per.isMago) {
             g.drawImage(img.getImage(), -50 + per.desplazamientoHorizontal, 50 + per.desplazamientoVertical, img.getIconWidth() / 3, img.getIconHeight() / 3, null);
+        } else if (per.ancho < 0) {
+            g.drawImage(img.getImage(), -85 + per.desplazamientoHorizontal, 115 + per.desplazamientoVertical, img.getIconWidth() / 3, img.getIconHeight() / 3, null);
         } else {
             g.drawImage(img.getImage(), 35 + per.desplazamientoHorizontal, 115 + per.desplazamientoVertical, img.getIconWidth() / 3, img.getIconHeight() / 3, null);
         }
+
     }
 }
