@@ -1,5 +1,6 @@
 package GUI;
 
+import Logica.Invocador;
 import Logica.Mascota;
 import Logica.Personaje;
 import java.awt.MouseInfo;
@@ -21,7 +22,8 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
     Grupos grupos = new Grupos();
     Reproductor[] repro = new Reproductor[2];
     Thread musica;
-
+    
+    
     public FRM_Visor(Personaje p1, Personaje huevo, Personaje  p2, int cancion) {
 
         // Instancia de la ventana
@@ -152,6 +154,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                 grupos.grupo1.cambiarControl();
                 break;
             default:
+               // JOptionPane.showMessageDialog(null, e.getKeyCode());
                 grupos.grupo1.operar(e);
                 break;
         }

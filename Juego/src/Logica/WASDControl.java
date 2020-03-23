@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
  * @author <a href="https://github.com/JQuinteroC">JQuinteroC</a>
  */
 public class WASDControl extends EstrategiaControl {
-
+    
     public WASDControl(KeyEvent evento, Personaje personaje) {
         super(evento, personaje);
     }

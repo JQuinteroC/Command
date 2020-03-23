@@ -37,6 +37,9 @@ public class FlechasControl extends EstrategiaControl {
                 case 99:
                     accion = 6;
                     break;
+                case 32:
+                    accion = 9;
+                    break;
                 default:
                     break;
             }
