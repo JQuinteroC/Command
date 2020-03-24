@@ -42,7 +42,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         personajes.get(1).setHitbox(250, 280, personajes.get(1).getAncho(), personajes.get(1).getAlto());
         panel.add(personajes.get(0));
         panel.add(personajes.get(1));
-
+        
         
         // Configuración del personaje y grupo
         p2.setPanel(panel);

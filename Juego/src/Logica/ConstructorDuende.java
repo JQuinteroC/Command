@@ -20,16 +20,16 @@ public class ConstructorDuende extends ConstruirPersonaje {
 
     @Override
     public void CrearAnimaciones() {
-        for (int i = 0; i < 24; i++) {
+        for (int i = 0; i < 17; i++) {
             try {
-                personaje.caminar[i] = new ImageIcon(ImageIO.read(new File("Recursos\\Goblin\\Walk\\0_Goblin_Walking_" + i + ".png")));
+                personaje.idle[i] = new ImageIcon(ImageIO.read(new File("Recursos\\Goblin\\Idle\\0_Goblin_Idle_" + i + ".png")));
             } catch (IOException ex) {
                 Logger.getLogger(Duende.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        for (int i = 0; i < 18; i++) {
+        for (int i = 0; i < 12; i++) {
             try {
-                personaje.saltar[i] = new ImageIcon(ImageIO.read(new File("Recursos\\Goblin\\Jump\\0_Goblin_Jump_" + i + ".png")));
+                personaje.herir[i] = new ImageIcon(ImageIO.read(new File("Recursos\\Goblin\\Hurt\\0_Goblin_Hurt_" + i + ".png")));
             } catch (IOException ex) {
                 Logger.getLogger(Duende.class.getName()).log(Level.SEVERE, null, ex);
             }

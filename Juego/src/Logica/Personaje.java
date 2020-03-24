@@ -13,8 +13,8 @@ import javax.swing.JPanel;
  */
 public class Personaje extends JComponent implements Cloneable, Composite {
 
-    protected ImageIcon[] caminar;
-    protected ImageIcon[] saltar;
+    protected ImageIcon[] idle;
+    protected ImageIcon[] herir;
     protected ImageIcon[] morir;
     protected ImageIcon[] atacar;
     public int desplazamiento;
@@ -39,8 +39,8 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     public Personaje() {
         // Se limpian todas las varibales para el cambio de personaje
         hilo = null;
-        caminar = null;
-        saltar = null;
+        idle = null;
+        herir = null;
         morir = null;
         atacar = null;
         x = 0;
@@ -73,69 +73,72 @@ public class Personaje extends JComponent implements Cloneable, Composite {
         this.alto = alto;
     }
 
-    public void setHilo(int mover, int saltar, int morir, int atacar, int sleep) {
+    public void setHilo(int idle, int herir, int morir, int atacar, int sleep) {
         this.hilo = new Thread() {
             @Override
             public void run() {
                 try {
                     while (true) {
-                        switch (x) {
-                            case 0:
-                                numero++;
-                                switch (desplazamiento) { //Personaje Individual
-                                    case 39:
-                                        desplazamientoHorizontal += 24;
-                                        hitbox.x += 24;
-                                        tempDesplazamiento = desplazamiento;
-                                        desplazamiento = 0;
-                                        break;
-                                    case 38:
-                                        desplazamientoVertical -= 24;
-                                        hitbox.y -= 24;
-                                        tempDesplazamiento = desplazamiento;
-                                        desplazamiento = 0;
-                                        break;
-                                    case 37:
-                                        desplazamientoHorizontal -= 24;
-                                        hitbox.x -= 24;
-                                        tempDesplazamiento = desplazamiento;
-                                        desplazamiento = 0;
-                                        break;
-                                    case 40:
-                                        desplazamientoVertical += 24;
-                                        hitbox.y += 24;
-                                        tempDesplazamiento = desplazamiento;
-                                        desplazamiento = 0;
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                numero = numero % mover;
-                                panel.repaint();
-                                hilo.sleep(sleep);
-                                break;
-                            case 1:
-                                numero++;
-                                numero = numero % saltar;
-                                panel.repaint();
-                                hilo.sleep(sleep);
-                                break;
-                            case 2:
-                                numero++;
-                                numero = numero % morir;
-                                panel.repaint();
-                                hilo.sleep(sleep);
-                                break;
-                            case 3:
-                                numero++;
-                                numero = numero % atacar;
-                                panel.repaint();
-                                hilo.sleep(sleep);
-                                break;
-                            default:
-                                break;
-                        }
+                    switch (x) {
+                        case 0:
+                            numero++;
+                            switch (desplazamiento) { //Personaje Individual
+                                case 39:
+                                    desplazamientoHorizontal += 24;
+                                    hitbox.x += 24;
+                                    tempDesplazamiento = desplazamiento;
+                                    desplazamiento = 0;
+                                    break;
+                                case 38:
+                                    desplazamientoVertical -= 24;
+                                    hitbox.y -= 24;
+                                    tempDesplazamiento = desplazamiento;
+                                    desplazamiento = 0;
+                                    break;
+                                case 37:
+                                    desplazamientoHorizontal -= 24;
+                                    hitbox.x -= 24;
+                                    tempDesplazamiento = desplazamiento;
+                                    desplazamiento = 0;
+                                    break;
+                                case 40:
+                                    desplazamientoVertical += 24;
+                                    hitbox.y += 24;
+                                    tempDesplazamiento = desplazamiento;
+                                    desplazamiento = 0;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            numero = numero % idle;
+                            panel.repaint();
+                            hilo.sleep(sleep+30);
+                            break;
+                        case 1:
+                            numero++;
+                            numero = numero % herir;
+                            panel.repaint();
+                            hilo.sleep(sleep);
+                            break;
+                        case 2:
+                            numero++;
+                            numero = numero % morir;
+                            panel.repaint();
+                            hilo.sleep(sleep);
+                            if (numero + 1== morir) {
+                                idle();
+                            }
+                            break;
+                        case 3:
+                            numero++;
+                            numero = numero % atacar;
+                            panel.repaint();
+                            hilo.sleep(sleep);
+                            break;
+                        default:
+                            break;
                     }
+                        }
                 } catch (java.lang.InterruptedException ex) {
                     System.out.println(ex.getMessage());
                 }
@@ -148,20 +151,20 @@ public class Personaje extends JComponent implements Cloneable, Composite {
         setBounds(0, 0, panel.getWidth(), panel.getHeight());
     }
 
-    public ImageIcon[] getCaminar() {
-        return caminar;
+    public ImageIcon[] getIdle() {
+        return idle;
     }
 
-    public void setCaminar(ImageIcon[] caminar) {
-        this.caminar = caminar;
+    public void setIdle(ImageIcon[] idle) {
+        this.idle = idle;
     }
 
-    public ImageIcon[] getSaltar() {
-        return saltar;
+    public ImageIcon[] getHerir() {
+        return herir;
     }
 
-    public void setSaltar(ImageIcon[] saltar) {
-        this.saltar = saltar;
+    public void setHerir(ImageIcon[] herir) {
+        this.herir = herir;
     }
 
     public ImageIcon[] getMorir() {
@@ -189,7 +192,7 @@ public class Personaje extends JComponent implements Cloneable, Composite {
             if (PersonajeClonado.isIsMago()) {
                 PersonajeClonado.setHilo(5, 5, 5, 5, 130);
             } else {
-                PersonajeClonado.setHilo(24, 18, 15, 12, 50);
+                PersonajeClonado.setHilo(17, 12, 15, 12, 50);
             }
         } catch (CloneNotSupportedException e) {
         }
@@ -203,15 +206,15 @@ public class Personaje extends JComponent implements Cloneable, Composite {
             g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
             switch (x) {
                 case 0:
-                    g.drawImage(caminar[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
+                    g.drawImage(idle[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
                     break;
                 case 1:
                     if (isMago && this.ancho < 0) {
-                        g.drawImage(saltar[numero].getImage(), 55 + desplazamientoHorizontal, -38 + desplazamientoVertical, ancho + 5 , alto + 30, null);
+                        g.drawImage(herir[numero].getImage(), 55 + desplazamientoHorizontal, -38 + desplazamientoVertical, ancho + 5, alto + 30, null);
                     } else if (isMago) {
-                        g.drawImage(saltar[numero].getImage(), 50 + desplazamientoHorizontal, -38 + desplazamientoVertical, ancho - 8, alto + 30, null);
+                        g.drawImage(herir[numero].getImage(), 50 + desplazamientoHorizontal, -38 + desplazamientoVertical, ancho - 8, alto + 30, null);
                     } else {
-                        g.drawImage(saltar[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
+                        g.drawImage(herir[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
                     }
                     break;
                 case 2:
@@ -241,7 +244,7 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     }
 
     // ANIMACIONES
-    public void mover() {
+    public void idle() {
         x = 0;
         if (!((tempDesplazamiento > 36) & (tempDesplazamiento < 41))) {
             numero = 0;
@@ -251,7 +254,7 @@ public class Personaje extends JComponent implements Cloneable, Composite {
         }
     }
 
-    public void saltar() {
+    public void herir() {
         x = 1;
         numero = 0;
         if (!hilo.isAlive()) {

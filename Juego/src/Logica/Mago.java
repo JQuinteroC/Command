@@ -14,8 +14,8 @@ public class Mago extends Personaje {
         super.ancho = 419/2;
         super.alto = 381/2;
         super.isMago = true;
-        super.caminar = new ImageIcon[5];
-        super.saltar = new ImageIcon[5];
+        super.idle = new ImageIcon[5];
+        super.herir = new ImageIcon[5];
         super.morir = new ImageIcon[5];
         super.atacar = new ImageIcon[5];
         super.hitbox = new Rectangle(desplazamientoHorizontal+(ancho/2)-10, desplazamientoVertical+(alto/4), (ancho/2)-40, (alto/2)+25);  

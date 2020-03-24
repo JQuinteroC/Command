@@ -39,7 +39,7 @@ public class Mascota extends Decorador {
     }
 
     @Override
-    public void mover() {
+    public void idle() {
         personaje.x = 0;
         if (!((personaje.tempDesplazamiento > 36) & (personaje.tempDesplazamiento < 41))) {
             personaje.numero = 0;
@@ -50,7 +50,7 @@ public class Mascota extends Decorador {
     }
 
     @Override
-    public void saltar() {
+    public void herir() {
         personaje.x = 1;
         personaje.numero = 0;
         if (!personaje.hilo.isAlive()) {

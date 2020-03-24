@@ -22,14 +22,14 @@ public class ConstructorMago extends ConstruirPersonaje {
     public void CrearAnimaciones() {
         for (int i = 0; i < 5; i++) {
             try {
-                personaje.caminar[i] = new ImageIcon(ImageIO.read(new File("Recursos\\Wizard\\Walk\\2_WALK_" + i + ".png")));
+                personaje.idle[i] = new ImageIcon(ImageIO.read(new File("Recursos\\Wizard\\Idle\\1_IDLE_" + i + ".png")));
             } catch (IOException ex) {
                 Logger.getLogger(Mago.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         for (int i = 0; i < 5; i++) {
             try {
-                personaje.saltar[i] = new ImageIcon(ImageIO.read(new File("Recursos\\Wizard\\Jump\\4_JUMP_" + i + ".png")));
+                personaje.herir[i] = new ImageIcon(ImageIO.read(new File("Recursos\\Wizard\\Hurt\\6_HURT_" + i + ".png")));
             } catch (IOException ex) {
                 Logger.getLogger(Mago.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
  * @author <a href="https://github.com/JQuinteroC">JQuinteroC</a>
  */
 public class WASDControl extends EstrategiaControl {
-    
+
     public WASDControl(KeyEvent evento, Personaje personaje) {
         super(evento, personaje);
     }
@@ -36,6 +36,9 @@ public class WASDControl extends EstrategiaControl {
                     break;
                 case 'f':
                     accion = 7;
+                    break;
+                case 32:
+                    accion = 9;
                     break;
                 default:
                     break;

@@ -24,7 +24,6 @@ public class Grupos implements Observador {
         } else {
             grupo2.deletePerson(p);
             grupo1.addPersonaje(p);
-
         }
     }
 

@@ -15,7 +15,7 @@ public class Saltar implements Command{
     
     
     private void hacerSalto(){
-        personaje.saltar();
+        personaje.herir();
     }
 
     @Override

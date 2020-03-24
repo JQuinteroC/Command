@@ -21,12 +21,12 @@ public class ConstructorHuevo extends ConstruirPersonaje {
     @Override
     public void CrearAnimaciones() {
         try {
-            personaje.caminar[0] = new ImageIcon(ImageIO.read(new File("Recursos\\PowerUp\\egg.png")));
+            personaje.idle[0] = new ImageIcon(ImageIO.read(new File("Recursos\\PowerUp\\egg.png")));
         } catch (IOException ex) {
             Logger.getLogger(Huevo.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            personaje.saltar[0] = new ImageIcon(ImageIO.read(new File("Recursos\\PowerUp\\egg.png")));
+            personaje.herir[0] = new ImageIcon(ImageIO.read(new File("Recursos\\PowerUp\\egg.png")));
         } catch (IOException ex) {
             Logger.getLogger(Huevo.class.getName()).log(Level.SEVERE, null, ex);
         }

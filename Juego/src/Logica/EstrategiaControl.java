@@ -1,8 +1,6 @@
 package Logica;
 
-import GUI.FRM_Visor;
 import java.awt.event.KeyEvent;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,19 +22,19 @@ public abstract class EstrategiaControl {
         identificarEvento();
         if (accion == 1) {
             personaje.desplazamiento = 39;
-            personaje.mover();
+            personaje.idle();
         }
         if (accion == 2) {
             personaje.desplazamiento = 38;
-            personaje.mover();
+            personaje.idle();
         }
         if (accion == 3) {
             personaje.desplazamiento = 37;
-            personaje.mover();
+            personaje.idle();
         }
         if (accion == 4) {
             personaje.desplazamiento = 40;
-            personaje.mover();
+            personaje.idle();
         }
         if (accion == 5) {
             invoker = Invocador.obtenerInvocador();
