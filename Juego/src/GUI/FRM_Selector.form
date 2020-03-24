@@ -50,10 +50,10 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="lblMago" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="lblDuende" max="32767" attributes="0"/>
-                  <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                   <Component id="Cancion" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                  <Component id="lblDuende" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
               <Component id="jLabel2" alignment="1" max="32767" attributes="0"/>
@@ -67,11 +67,11 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="lblMago" pref="383" max="32767" attributes="0"/>
-                      <Component id="lblDuende" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Component id="Cancion" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
+                      <Component id="lblDuende" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -81,7 +81,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lblMago">
           <Properties>
-            <Property name="text" type="java.lang.String" value="MAGO"/>
+            <Property name="text" type="java.lang.String" value="Mago VS Duende"/>
             <Property name="verticalAlignment" type="int" value="1"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
@@ -104,7 +104,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblDuende">
           <Properties>
-            <Property name="text" type="java.lang.String" value="DUENDE"/>
+            <Property name="text" type="java.lang.String" value="Duende VS Mago"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="verticalAlignment" type="int" value="1"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>

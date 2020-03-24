@@ -27,11 +27,11 @@ public class FRM_Selector extends javax.swing.JFrame {
     private FRM_Selector() throws IOException {
         initComponents();
         super.setLocationRelativeTo(null);
-        Image s = ImageIO.read(new File("Recursos\\Wizard\\Idle\\1_IDLE_0.png"));
+        Image s = ImageIO.read(new File("Recursos\\Wizard\\Idle\\VSMago0.png"));
         ImageIcon l = new ImageIcon(s.getScaledInstance(387, 350, Image.SCALE_SMOOTH));
         lblMago.setIcon(l);
 
-        s = ImageIO.read(new File("Recursos\\Goblin\\Idle\\Goblin_Idle_0.png"));
+        s = ImageIO.read(new File("Recursos\\Goblin\\Idle\\VSDuende0.png"));
         l = new ImageIcon(s.getScaledInstance(387, 350, Image.SCALE_SMOOTH));
         lblDuende.setIcon(l);
     }
@@ -63,7 +63,7 @@ public class FRM_Selector extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(834, 488));
 
-        lblMago.setText("MAGO");
+        lblMago.setText("Mago VS Duende");
         lblMago.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         lblMago.setFocusable(false);
         lblMago.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -83,7 +83,7 @@ public class FRM_Selector extends javax.swing.JFrame {
             }
         });
 
-        lblDuende.setText("DUENDE");
+        lblDuende.setText("Duende VS Mago");
         lblDuende.setToolTipText("");
         lblDuende.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         lblDuende.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -122,10 +122,10 @@ public class FRM_Selector extends javax.swing.JFrame {
             .add(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(lblMago, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(28, 28, 28)
-                .add(lblDuende, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(56, 56, 56)
+                .add(39, 39, 39)
                 .add(Cancion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(45, 45, 45)
+                .add(lblDuende, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -137,10 +137,10 @@ public class FRM_Selector extends javax.swing.JFrame {
                 .add(18, 18, 18)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(lblMago, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
-                    .add(lblDuende, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(jPanel1Layout.createSequentialGroup()
-                        .add(0, 0, Short.MAX_VALUE)
-                        .add(Cancion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(Cancion, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(0, 0, Short.MAX_VALUE))
+                    .add(lblDuende, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -203,7 +203,7 @@ public class FRM_Selector extends javax.swing.JFrame {
     private void lblMagoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMagoMouseEntered
         Image s = null;
         try {
-            s = ImageIO.read(new File("Recursos\\Wizard\\Idle\\1_IDLE_0-.png"));
+            s = ImageIO.read(new File("Recursos\\Wizard\\Idle\\VSMago1.png"));
         } catch (IOException ex) {
             Logger.getLogger(FRM_Selector.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -214,7 +214,7 @@ public class FRM_Selector extends javax.swing.JFrame {
     private void lblMagoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMagoMouseExited
         Image s = null;
         try {
-            s = ImageIO.read(new File("Recursos\\Wizard\\Idle\\1_IDLE_0.png"));
+            s = ImageIO.read(new File("Recursos\\Wizard\\Idle\\VSMago0.png"));
         } catch (IOException ex) {
             Logger.getLogger(FRM_Selector.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -225,7 +225,7 @@ public class FRM_Selector extends javax.swing.JFrame {
     private void lblDuendeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDuendeMouseEntered
         Image s = null;
         try {
-            s = ImageIO.read(new File("Recursos\\Goblin\\Idle\\Goblin_Idle_0-.png"));
+            s = ImageIO.read(new File("Recursos\\Goblin\\Idle\\VSDuende1.png"));
         } catch (IOException ex) {
             Logger.getLogger(FRM_Selector.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -236,7 +236,7 @@ public class FRM_Selector extends javax.swing.JFrame {
     private void lblDuendeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDuendeMouseExited
         Image s = null;
         try {
-            s = ImageIO.read(new File("Recursos\\Goblin\\Idle\\Goblin_Idle_0.png"));
+            s = ImageIO.read(new File("Recursos\\Goblin\\Idle\\VSDuende0.png"));
         } catch (IOException ex) {
             Logger.getLogger(FRM_Selector.class.getName()).log(Level.SEVERE, null, ex);
         }
