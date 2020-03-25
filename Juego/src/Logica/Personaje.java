@@ -119,6 +119,9 @@ public class Personaje extends JComponent implements Cloneable, Composite {
                             numero = numero % herir;
                             panel.repaint();
                             hilo.sleep(sleep);
+                            if (numero + 1== herir) {
+                                idle();
+                            }
                             break;
                         case 2:
                             numero++;
@@ -134,6 +137,9 @@ public class Personaje extends JComponent implements Cloneable, Composite {
                             numero = numero % atacar;
                             panel.repaint();
                             hilo.sleep(sleep);
+                            if (numero + 1== atacar) {
+                                idle();
+                            }
                             break;
                         default:
                             break;
@@ -210,27 +216,27 @@ public class Personaje extends JComponent implements Cloneable, Composite {
                     break;
                 case 1:
                     if (isMago && this.ancho < 0) {
-                        g.drawImage(herir[numero].getImage(), 55 + desplazamientoHorizontal, -38 + desplazamientoVertical, ancho + 5, alto + 30, null);
+                        g.drawImage(herir[numero].getImage(), 65 + desplazamientoHorizontal, -3 + desplazamientoVertical, ancho - 50, alto + 18, null);
                     } else if (isMago) {
-                        g.drawImage(herir[numero].getImage(), 50 + desplazamientoHorizontal, -38 + desplazamientoVertical, ancho - 8, alto + 30, null);
+                        g.drawImage(herir[numero].getImage(), 35 + desplazamientoHorizontal, -3 + desplazamientoVertical, ancho + 50, alto + 18, null);
                     } else {
                         g.drawImage(herir[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
                     }
                     break;
                 case 2:
                     if (isMago && this.ancho < 0) {
-                        g.drawImage(morir[numero].getImage(), 55 + desplazamientoHorizontal, 2 + desplazamientoVertical, ancho + 10, alto - 2, null);
+                        g.drawImage(morir[numero].getImage(), 45 + desplazamientoHorizontal, -4 + desplazamientoVertical, ancho + 3, alto + 14, null);
                     } else if (isMago) {
-                        g.drawImage(morir[numero].getImage(), 55 + desplazamientoHorizontal, 2 + desplazamientoVertical, ancho - 8, alto - 2, null);
+                        g.drawImage(morir[numero].getImage(), 53 + desplazamientoHorizontal, -4 + desplazamientoVertical, ancho + 3, alto + 14, null);
                     } else {
                         g.drawImage(morir[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
                     }
                     break;
                 case 3:
                     if (isMago && this.ancho < 0) {
-                        g.drawImage(atacar[numero].getImage(), 55 + desplazamientoHorizontal, -25 + desplazamientoVertical, ancho - 140, alto + 45, null);
+                        g.drawImage(atacar[numero].getImage(), 55 + desplazamientoHorizontal, -25 + desplazamientoVertical, ancho - 155, alto + 60, null);
                     } else if (isMago) {
-                        g.drawImage(atacar[numero].getImage(), 50 + desplazamientoHorizontal, -25 + desplazamientoVertical, ancho + 150, alto + 45, null);
+                        g.drawImage(atacar[numero].getImage(), 45 + desplazamientoHorizontal, -30 + desplazamientoVertical, ancho + 165, alto + 60, null);
                     } else {
                         g.drawImage(atacar[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
                     }
