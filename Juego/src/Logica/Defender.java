@@ -4,22 +4,21 @@ package Logica;
  *
  * @author Mateo
  */
-
-public class Atacar implements Command {
+public class Defender implements Command {
 
     Personaje personaje;
 
-    public Atacar(Personaje personaje) {
+    public Defender(Personaje personaje) {
         this.personaje = personaje;
     }
 
-    private void hacerAtaque() {
-        personaje.atacar();
+    private void hacerDefensa() {
+        personaje.defender();
     }
 
     @Override
     public void accion() {
-        hacerAtaque();
+        hacerDefensa();
     }
 
 }

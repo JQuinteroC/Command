@@ -3,7 +3,6 @@ package Logica;
 import static Logica.Personaje.panel;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -49,7 +48,7 @@ public class Mascota extends Decorador {
         }
     }
 
-    @Override
+   
     public void herir() {
         personaje.x = 1;
         personaje.numero = 0;
@@ -158,17 +157,6 @@ public class Mascota extends Decorador {
             personaje.hilo.interrupt();
         } catch (Exception ex) {
             System.out.println("hilo " + personaje.hilo.getName() + " no interrumpido");
-        }
-    }
-
-    @Override
-    public void operar(KeyEvent evento) {
-        if (tipoControl) {
-            control = new WASDControl(evento, this);
-            control.operar();
-        } else {
-            control = new FlechasControl(evento, this);
-            control.operar();
         }
     }
 

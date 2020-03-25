@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class Invocador {
 
-    ArrayList<Command> comando;
+    public ArrayList<Command> comando;
     static Invocador invocador;
 
     private Invocador() {

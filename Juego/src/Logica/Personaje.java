@@ -30,10 +30,8 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     boolean animar = false; // Controla la ejecución de la animación
     static JPanel panel = null;
     public Thread hilo;
-    protected EstrategiaControl control;   /// Borrar
-    protected boolean tipoControl;         /// Borrar
     public int vidaRest = 60;
-    public int seleccionable; //0 no seleccionable, 1 seleccionable, 2 bloqueado
+    public int seleccionable; //0 no seleccionable, 1 seleccionado, 2 no seleccion
     public boolean defendiendo;
     public boolean muerto; //Si está muerto no se puede seleccionar
 
@@ -51,8 +49,7 @@ public class Personaje extends JComponent implements Cloneable, Composite {
         alto = 0;
         isMago = false;
         panel = null;
-        tipoControl = true;
-        seleccionable = 0;
+        seleccionable = 2;
         defendiendo = false;
         muerto = false;
     }
@@ -106,7 +103,7 @@ public class Personaje extends JComponent implements Cloneable, Composite {
                             panel.repaint();
                             hilo.sleep(sleep);
                             if (numero + 1== morir) {
-                                idle();
+                                hilo.stop();
                             }
                             break;
                         case 3:
@@ -237,7 +234,9 @@ public class Personaje extends JComponent implements Cloneable, Composite {
         }
     }
 
-    public void herir() {
+    public void herir(int d) {
+        vidaRest = vidaRest - d;
+        System.out.println("A " + getName() + " le queda " + getVidaRestante() + " de vida restante.");
         x = 1;
         numero = 0;
         if (!hilo.isAlive()) {
@@ -248,9 +247,6 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     public void morir() {
         x = 2;
         numero = 0;
-        if (!hilo.isAlive()) {
-            hilo.start();
-        }
     }
 
     public void atacar() {
@@ -258,18 +254,6 @@ public class Personaje extends JComponent implements Cloneable, Composite {
         numero = 0;
         if (!hilo.isAlive()) {
             hilo.start();
-        }
-    }
-
-    //operacion necesaria para el manejo de poblaciones
-    @Override
-    public void operar(KeyEvent evento) {
-        if (tipoControl) {
-            control = new FlechasControl(evento, this);
-            control.operar();
-        } else {
-            control = new WASDControl(evento, this);
-            control.operar();
         }
     }
 
@@ -313,11 +297,6 @@ public class Personaje extends JComponent implements Cloneable, Composite {
         }
     }
 
-    @Override
-    public void cambiarControl() {
-        tipoControl = !tipoControl;
-    }
-
     public int getSeleccionable() {
         return seleccionable;
     }
@@ -348,5 +327,14 @@ public class Personaje extends JComponent implements Cloneable, Composite {
 
     public void setDefendiendo(boolean b) {
         this.defendiendo = b;
+    }
+
+    void defender() {
+        vidaRest = vidaRest + 7;
+    }
+
+    @Override
+    public void operar() {
+        //Se hace mascota
     }
 }

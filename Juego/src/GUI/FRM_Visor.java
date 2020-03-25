@@ -1,5 +1,9 @@
 package GUI;
 
+import Logica.Atacar;
+import Logica.Defender;
+import Logica.Herir;
+import Logica.Invocador;
 import Logica.Personaje;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -21,18 +25,15 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
     Grupos grupos = new Grupos();
     Reproductor[] repro = new Reproductor[2];
     Thread musica;
-    Personaje personajeSeleccionado;
-    Personaje enemigoSeleccionado;
-    Boolean turno;
     int intAleatorio;
     Random aleatorio;
+    Invocador invoker = Invocador.obtenerInvocador();
 
     public FRM_Visor(Personaje p1, Personaje huevo, Personaje p2, int cancion) {
         super("Magos y Duendes");
         // Instancia de la ventana
         initComponents();
         super.setLocationRelativeTo(null);
-        turno = false;
         // Configuración del personaje y grupo
         p1.setPanel(panel);
         personajes.add(p1);
@@ -93,17 +94,15 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         repro[0].setSuccessor(repro[1]);
         repro[0].cancion = cancion;
         repro[0].start();
-        
+
         personajes.get(0).idle();
         personajes.get(1).idle();
         personajes.get(2).idle();
         personajes.get(3).idle();
 
         //Definicion de primer turno, quienes se pueden seleccionar, empezamos por izquierda, solo hay que seleccionar el enemigo
-        personajes.get(0).setSeleccionable(0); //Pasar a ponerselo al grupo designado
-        personajes.get(1).setSeleccionable(0);
-        personajes.get(2).setSeleccionable(1); //Pasar a ponerselo al grupo designado
-        personajes.get(3).setSeleccionable(1);
+        grupos.grupo1.activo = true;
+        grupos.grupo2.activo = false;
 
         //Definicion de Random
         aleatorio = new Random(System.currentTimeMillis());
@@ -113,12 +112,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
 
     @Override
     public void notificar() {
-    }
-
-    public void notificar(Personaje p) {
-        for (Observador o : observadores) {
-            o.update(p);
-        }
+        //owo
     }
 
     @Override
@@ -141,124 +135,40 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                 huevos.clear();
                 this.dispose();
                 break;
-            case 10:
-                grupos.grupo1.cambiarControl();
-                break;
-            case 'b':
-                if (personajeSeleccionado != null) {
-                    personajeSeleccionado.setDefendiendo(true);
-                    personajeSeleccionado.setSeleccionable(2);
-                    System.out.println("El " + personajeSeleccionado.getName() + " se defiende");
-                    personajeSeleccionado = null;
-                    enemigoSeleccionado = null;
-                    if ((personajes.get(0).getSeleccionable() == 2) && (personajes.get(1).getSeleccionable() == 2)) {
-                        for (int j = 0; j < 4; j++) { //configurar para que sea por grupos
-                            if (personajes.get(j).getMuerto() == false) {
-                                if (j < 2) {
-                                    personajes.get(j).setSeleccionable(1);
-                                } else {
-                                    personajes.get(j).setSeleccionable(0);
-                                    if (personajes.get(j).getDefendiendo() == true) {
-                                        personajes.get(j).setDefendiendo(false);
-                                    }
-                                }
-                            }
-                        }
-                        System.out.println();
-                        System.out.println("Cambio de Turno");
-                        System.out.println();
-                    }
-                    if ((personajes.get(2).getSeleccionable() == 2) && (personajes.get(3).getSeleccionable() == 2)) {
-                        for (int j = 0; j < 4; j++) { //configurar para que sea por grupos
-                            if (personajes.get(j).getMuerto() == false) {
-                                if (j < 2) {
-                                    personajes.get(j).setSeleccionable(0);
-                                    if (personajes.get(j).getDefendiendo() == true) {
-                                        personajes.get(j).setDefendiendo(false);
-                                    }
-                                } else {
-                                    personajes.get(j).setSeleccionable(1);
-                                }
-                            }
-                        }
-                        System.out.println();
-                        System.out.println("Cambio de Turno");
-                        System.out.println();
-                    }
-                }
+
             case ' ':
-                if ((personajeSeleccionado != null) && (enemigoSeleccionado != null)) {
-                    if ((personajes.get(2).getSeleccionable() == 1) || (personajes.get(3).getSeleccionable() == 1)) { //Pasar a revisar el grupo en lugar de solo un personaje
-                        grupos.grupo1.operar(e);
-                        System.out.println("El " + personajeSeleccionado.getName() + " ataca a " + enemigoSeleccionado.getName());
-                        personajeSeleccionado.setSeleccionable(2);
-                        if (enemigoSeleccionado.getDefendiendo() == true) {
-                            enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - intAleatorio + 7);
+                if (grupos.grupo1.activo) {
+                    if (personajes.get(0).getSeleccionable() == 1) {
+                        if (personajes.get(2).getSeleccionable() == 1 || personajes.get(3).getSeleccionable() == 1) {
+                            turno(0, 1, 2, 3);
                         } else {
-                            enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - intAleatorio);
+                            JOptionPane.showMessageDialog(null, "Escoge un personaje enemigo");
                         }
-                        System.out.println("A " + enemigoSeleccionado.getName() + " le queda " + enemigoSeleccionado.getVidaRestante() + " de vida restante.");
-                        if (enemigoSeleccionado.getVidaRestante() <= 0) {
-                            enemigoSeleccionado.setMuerto(true);
-                            enemigoSeleccionado.setSeleccionable(2);
-                        }
-                        if ((personajes.get(0).getSeleccionable() == 2) && (personajes.get(1).getSeleccionable() == 2)) {
-                            for (int j = 0; j < 4; j++) { //configurar para que sea por grupos
-                                if (personajes.get(j).getMuerto() == false) {
-                                    if (j < 2) {
-                                        personajes.get(j).setSeleccionable(1);
-                                    } else {
-                                        personajes.get(j).setSeleccionable(0);
-                                        if (personajes.get(j).getDefendiendo() == true) {
-                                            personajes.get(j).setDefendiendo(false);
-                                        }
-                                    }
-                                }
-                            }
-                            System.out.println();
-                            System.out.println("Cambio de Turno");
-                            System.out.println();
-                        }
-                        personajeSeleccionado = null;
-                        enemigoSeleccionado = null;
-                    } else if ((personajes.get(0).getSeleccionable() == 1) || (personajes.get(1).getSeleccionable() == 1)) {
-                        grupos.grupo2.operar(e);
-                        System.out.println("El " + personajeSeleccionado.getName() + " ataca a " + enemigoSeleccionado.getName());
-                        personajeSeleccionado.setSeleccionable(2);
-                        if (enemigoSeleccionado.getDefendiendo() == true) {
-                            enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - intAleatorio + 7);
+                    } else if (personajes.get(1).getSeleccionable() == 1) {
+                        if (personajes.get(2).getSeleccionable() == 1 || personajes.get(3).getSeleccionable() == 1) {
+                            turno(1, 0, 2, 3);
                         } else {
-                            enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - intAleatorio);
+                            JOptionPane.showMessageDialog(null, "Escoge un personaje enemigo");
                         }
-                        System.out.println("A " + enemigoSeleccionado.getName() + " le queda " + enemigoSeleccionado.getVidaRestante() + " de vida restante.");
-                        if (enemigoSeleccionado.getVidaRestante() <= 0) {
-                            enemigoSeleccionado.setMuerto(true);
-                            enemigoSeleccionado.setSeleccionable(2);
+                    }
+                } else if (grupos.grupo2.activo) {
+                    if (personajes.get(2).getSeleccionable() == 1) {
+                        if (personajes.get(0).getSeleccionable() == 1 || personajes.get(1).getSeleccionable() == 1) {
+                            turno(2, 3, 0, 1);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Escoge un personaje enemigo");
                         }
-                        if ((personajes.get(2).getSeleccionable() == 2) && (personajes.get(3).getSeleccionable() == 2)) {
-                            for (int j = 0; j < 4; j++) { //configurar para que sea por grupos
-                                if (personajes.get(j).getMuerto() == false) {
-                                    if (j < 2) {
-                                        personajes.get(j).setSeleccionable(0);
-                                        if (personajes.get(j).getDefendiendo() == true) {
-                                            personajes.get(j).setDefendiendo(false);
-                                        }
-                                    } else {
-                                        personajes.get(j).setSeleccionable(1);
-                                    }
-                                }
-                            }
-                            System.out.println();
-                            System.out.println("Cambio de Turno");
-                            System.out.println();
+                    } else if (personajes.get(3).getSeleccionable() == 1) {
+                        if (personajes.get(0).getSeleccionable() == 1 || personajes.get(1).getSeleccionable() == 1) {
+                            turno(3, 2, 0, 1);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Escoge un personaje enemigo");
                         }
-                        personajeSeleccionado = null;
-                        enemigoSeleccionado = null;
                     }
                 }
                 break;
+
             default:
-                grupos.grupo1.operar(e);
                 break;
         }
     }
@@ -315,14 +225,28 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         int y = (int) b.getY() - this.getY() - 32;
         for (int i = 0; i < personajes.size(); i++) {
             if (colisionPointer(x, y, personajes.get(i))) {
-                System.out.println("Colision con " + personajes.get(i).getName());
-                notificar(personajes.get(i));
-                if (personajes.get(i).getSeleccionable() == 1) {
-                    enemigoSeleccionado = personajes.get(i);
-                } else if (personajes.get(i).getSeleccionable() == 0) {
-                    personajeSeleccionado = personajes.get(i);
+                if (personajes.get(i).seleccionable != 0) {
+                    System.out.println("Colision con " + personajes.get(i).getName());
+
+                    if (grupos.grupo1.isHere(personajes.get(i))) {
+                        personajes.get(i).seleccionable = 1;
+
+                    } else if (grupos.grupo2.isHere(personajes.get(i))) {
+                        personajes.get(i).seleccionable = 1;
+                    } else {
+                        System.out.println("Personaje esta muerto");
+                    }
+                    int j;
+                    if (i % 2 == 0) {
+                        j = i + 1;
+                    } else {
+                        j = i - 1;
+                    }
+                    if (personajes.get(j).seleccionable != 0) {
+                        personajes.get(j).seleccionable = 2;
+                    }
                 } else {
-                    System.out.println("Personaje ya usado o muerto");
+                    System.out.println("Personaje ya seleccionado");
                 }
             }
         }
@@ -338,6 +262,68 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
             return true;
         } else {
             return false;
+        }
+    }
+
+    private void turno(int prin, int compa, int ene1, int ene2) {
+        if (!personajes.get(prin).muerto) {
+            String[] options = {"Atacar", "Defender"};
+            int seleccions = JOptionPane.showOptionDialog(null, "¿Que quieres hacer?", "Acción", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            if (seleccions == 0) {
+                personajes.get(prin).setDefendiendo(false);
+                Atacar a = new Atacar(personajes.get(prin));
+
+                //Preguntar a quien Atacar            
+                Herir h = null;
+                if (personajes.get(ene1).getSeleccionable() == 1 && !personajes.get(ene1).muerto) {
+                    h = new Herir(personajes.get(ene1), intAleatorio);
+                    invoker.comando.add(h);
+                    invoker.comando.add(a);
+                } else if (personajes.get(ene2).getSeleccionable() == 1 && !personajes.get(ene2).muerto) {
+                    h = new Herir(personajes.get(ene2), intAleatorio);
+                    invoker.comando.add(h);
+                    invoker.comando.add(a);
+                }
+
+            } else {
+                Defender d = new Defender(personajes.get(prin));
+                invoker.comando.add(d);
+            }
+            personajes.get(prin).seleccionable = 0;
+            invoker.ejecutarComandos();
+            if (personajes.get(ene1).vidaRest <= 0) {
+                personajes.get(ene1).muerto = true;
+                if (grupos.grupo1.isHere(personajes.get(ene1))) {
+                    grupos.grupo1.deletePerson(personajes.get(ene1));
+                } else {
+                    grupos.grupo2.deletePerson(personajes.get(ene1));
+                }
+                personajes.get(ene1).morir();
+            }
+            if (personajes.get(ene2).vidaRest <= 0) {
+                personajes.get(ene2).muerto = true;
+                if (grupos.grupo1.isHere(personajes.get(ene2))) {
+                    grupos.grupo1.deletePerson(personajes.get(ene2));
+                } else {
+                    grupos.grupo2.deletePerson(personajes.get(ene2));
+                }
+                personajes.get(ene2).morir();
+            }
+            invoker.comando.clear();
+
+            if (personajes.get(compa).seleccionable == 0 || personajes.get(compa).muerto) {
+                if (grupos.grupo1.isHere(personajes.get(compa))) {
+                    grupos.grupo1.activo = false;
+                    grupos.grupo2.activo = true;
+                } else {
+                    grupos.grupo1.activo = true;
+                    grupos.grupo2.activo = false;
+                }
+                personajes.get(prin).seleccionable = 2;
+                personajes.get(compa).seleccionable = 2;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Esta morido :C !!!!");
         }
     }
 }
