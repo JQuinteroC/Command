@@ -33,7 +33,9 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     protected EstrategiaControl control;   /// Borrar
     protected boolean tipoControl;         /// Borrar
     public int vidaRest = 60;
-    public boolean seleccionable;
+    public int seleccionable; //0 no seleccionable, 1 seleccionable, 2 bloqueado
+    public boolean defendiendo;
+    public boolean muerto; //Si está muerto no se puede seleccionar
 
     // CONSTRUCTOR
     public Personaje() {
@@ -50,6 +52,9 @@ public class Personaje extends JComponent implements Cloneable, Composite {
         isMago = false;
         panel = null;
         tipoControl = true;
+        seleccionable = 0;
+        defendiendo = false;
+        muerto = false;
     }
 
     // SET AND GET
@@ -339,5 +344,29 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     @Override
     public void cambiarControl() {
         tipoControl = !tipoControl;
+    }
+
+    public int getSeleccionable() {
+        return seleccionable;
+    }
+
+    public void setSeleccionable(int b) {
+        this.seleccionable = b;
+    }
+
+    public int getVidaRestante() {
+        return vidaRest;
+    }
+
+    public void setVidaRestante(int i) {
+        this.vidaRest = i;
+    }
+
+    public boolean getMuerto() {
+        return muerto;
+    }
+    
+    public void setMuerto(boolean i) {
+        this.muerto = i;
     }
 }

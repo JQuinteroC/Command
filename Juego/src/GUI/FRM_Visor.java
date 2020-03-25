@@ -22,14 +22,16 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
     Grupos grupos = new Grupos();
     Reproductor[] repro = new Reproductor[2];
     Thread musica;
-    
-    
-    public FRM_Visor(Personaje p1, Personaje huevo, Personaje  p2, int cancion) {
+    Personaje personajeSeleccionado;
+    Personaje enemigoSeleccionado;
+    Boolean turno;
+
+    public FRM_Visor(Personaje p1, Personaje huevo, Personaje p2, int cancion) {
 
         // Instancia de la ventana
         initComponents();
         super.setLocationRelativeTo(null);
-
+        turno = false;
         // Configuración del personaje y grupo
         p1.setPanel(panel);
         personajes.add(p1);
@@ -37,13 +39,14 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         personajes.get(0).setDesplazamientoVertical(300);
         personajes.get(0).setDesplazamientoHorizontal(60);
         personajes.get(0).setHitbox(60, 300, personajes.get(0).getAncho(), personajes.get(0).getAlto());
+        personajes.get(0).setName(personajes.get(0).getName() + " 1");
         personajes.get(1).setDesplazamientoVertical(280);
         personajes.get(1).setDesplazamientoHorizontal(250);
         personajes.get(1).setHitbox(250, 280, personajes.get(1).getAncho(), personajes.get(1).getAlto());
+        personajes.get(1).setName(personajes.get(1).getName() + " 2");
         panel.add(personajes.get(0));
         panel.add(personajes.get(1));
-        
-        
+
         // Configuración del personaje y grupo
         p2.setPanel(panel);
         personajes.add(p2);
@@ -52,14 +55,15 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         personajes.get(2).setDesplazamientoHorizontal(890);
         personajes.get(2).setAncho(-personajes.get(2).getAncho());
         personajes.get(2).setHitbox(890, 280, -personajes.get(2).getAncho(), personajes.get(2).getAlto());
-        
+        personajes.get(2).setName(personajes.get(2).getName() + " 1");
         personajes.get(3).setDesplazamientoVertical(300);
         personajes.get(3).setDesplazamientoHorizontal(1080);
         personajes.get(3).setAncho(-personajes.get(3).getAncho());
         personajes.get(3).setHitbox(1080, 300, -personajes.get(3).getAncho(), personajes.get(3).getAlto());
+        personajes.get(3).setName(personajes.get(3).getName() + " 2");
         panel.add(personajes.get(2));
         panel.add(personajes.get(3));
-        
+
         //se crean las poblaciones del patron Composite
         grupos.grupo1.addPersonaje(personajes.get(0));
         grupos.grupo1.addPersonaje(personajes.get(1));
@@ -69,10 +73,10 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         //Metiendo al huevito
         huevo.setPanel(panel);
         huevos.add(huevo);
-        huevos.get(0).setDesplazamientoVertical(300);
+        huevos.get(0).setDesplazamientoVertical(50);
         huevos.get(0).setDesplazamientoHorizontal(480);
-        huevos.get(0).setHitbox(480 - 91, 300 - 40, huevos.get(0).getAncho() + 192, (huevos.get(0).getAlto() / 2) + 125);
-        panel.add(huevos.get(0));
+        huevos.get(0).setHitbox(480 - 91, 50 - 40, huevos.get(0).getAncho() + 192, (huevos.get(0).getAlto() / 2) + 125);
+//        panel.add(huevos.get(0));
 
         // Integración del listener 
         addKeyListener(this);
@@ -88,6 +92,12 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         repro[0].setSuccessor(repro[1]);
         repro[0].cancion = cancion;
         repro[0].start();
+
+        //Definicion de primer turno, quienes se pueden seleccionar, empezamos por izquierda, solo hay que seleccionar el enemigo
+        personajes.get(0).setSeleccionable(0); //Pasar a ponerselo al grupo designado
+        personajes.get(1).setSeleccionable(0);
+        personajes.get(2).setSeleccionable(1); //Pasar a ponerselo al grupo designado
+        personajes.get(3).setSeleccionable(1);
     }
 
     @Override
@@ -153,10 +163,55 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
             case 10:
                 grupos.grupo1.cambiarControl();
                 break;
+            case ' ':
+                if ((personajeSeleccionado != null) && (enemigoSeleccionado != null)) {
+                    if ((personajes.get(2).getSeleccionable() == 1) || (personajes.get(3).getSeleccionable() == 1)) { //Pasar a revisar el grupo en lugar de solo un personaje
+                        grupos.grupo1.operar(e);
+                        System.out.println("El " + personajeSeleccionado.getName() + " ataca a " + enemigoSeleccionado.getName());
+                        personajeSeleccionado.setSeleccionable(2);
+                        enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - 30);
+                        System.out.println("A " + enemigoSeleccionado.getName() + " le queda " + enemigoSeleccionado.getVidaRestante() + " de vida restante.");
+                        if (enemigoSeleccionado.getVidaRestante()<=0){
+                            enemigoSeleccionado.setMuerto(true);
+                        }
+                        if ((personajes.get(0).getSeleccionable() == 2) && (personajes.get(1).getSeleccionable() == 2)) {
+                            personajes.get(0).setSeleccionable(1); //Pasar a ponerselo al grupo designado
+                            personajes.get(1).setSeleccionable(1);
+                            personajes.get(2).setSeleccionable(0); //Pasar a ponerselo al grupo designado
+                            personajes.get(3).setSeleccionable(0);
+                        }
+                        personajeSeleccionado = null;
+                        enemigoSeleccionado = null;
+                    } else if ((personajes.get(0).getSeleccionable() == 1) || (personajes.get(1).getSeleccionable() == 1)) {
+                        grupos.grupo2.operar(e);
+                        System.out.println("El " + personajeSeleccionado.getName() + " ataca a " + enemigoSeleccionado.getName());
+                        personajeSeleccionado.setSeleccionable(2);
+                        enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - 30);
+                        System.out.println("A " + enemigoSeleccionado.getName() + " le queda " + enemigoSeleccionado.getVidaRestante() + " de vida restante.");
+                        if (enemigoSeleccionado.getVidaRestante()<=0){
+                            enemigoSeleccionado.setMuerto(true);
+                        }
+                        if ((personajes.get(2).getSeleccionable() == 2) && (personajes.get(3).getSeleccionable() == 2)) {
+                            personajes.get(0).setSeleccionable(0); //Pasar a ponerselo al grupo designado
+                            personajes.get(1).setSeleccionable(0);
+                            personajes.get(2).setSeleccionable(1); //Pasar a ponerselo al grupo designado
+                            personajes.get(3).setSeleccionable(1);
+                        }
+                        personajeSeleccionado = null;
+                        enemigoSeleccionado = null;
+                    }
+                }
+                break;
             default:
-               // JOptionPane.showMessageDialog(null, e.getKeyCode());
+                // JOptionPane.showMessageDialog(null, e.getKeyCode());
+//                System.out.println(e.getKeyChar());
                 grupos.grupo1.operar(e);
                 break;
+        }
+        if ((personajes.get(2).getMuerto() == true) && (personajes.get(3).getMuerto() == true)) { //modificarlo para que revise a cada grupo
+            System.out.println("Ganó el equipo de la izquierda");
+        } else if ((personajes.get(0).getMuerto() == true) && (personajes.get(1).getMuerto() == true)){ //modificarlo para que revise a cada grupo
+            System.out.println("Ganó el equipo de la derecha");
         }
         for (int i = 0; i < personajes.size(); i++) {
             for (int j = 0; j < huevos.size(); j++) {
@@ -245,7 +300,15 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         int y = (int) b.getY() - this.getY() - 32;
         for (int i = 0; i < personajes.size(); i++) {
             if (colisionPointer(x, y, personajes.get(i))) {
+                System.out.println("Colision con " + personajes.get(i).getName());
                 notificar(personajes.get(i));
+                if (personajes.get(i).getSeleccionable() == 1) {
+                    enemigoSeleccionado = personajes.get(i);
+                } else if (personajes.get(i).getSeleccionable() == 0) {
+                    personajeSeleccionado = personajes.get(i);
+                } else {
+                    System.out.println("Personaje ya usado");
+                }
             }
         }
     }//GEN-LAST:event_panelMouseClicked

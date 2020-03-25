@@ -19,5 +19,6 @@ public class Duende extends Personaje {
         super.morir = new ImageIcon[15];
         super.atacar = new ImageIcon[12];
         super.hitbox = new Rectangle(desplazamientoHorizontal+(ancho/2)-10, desplazamientoVertical+(alto/4), (ancho/2)-40, (alto/2)+25);   
+        this.setName("Duende");
     }
 }
