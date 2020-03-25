@@ -171,14 +171,23 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                         personajeSeleccionado.setSeleccionable(2);
                         enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - 30);
                         System.out.println("A " + enemigoSeleccionado.getName() + " le queda " + enemigoSeleccionado.getVidaRestante() + " de vida restante.");
-                        if (enemigoSeleccionado.getVidaRestante()<=0){
+                        if (enemigoSeleccionado.getVidaRestante() <= 0) {
                             enemigoSeleccionado.setMuerto(true);
+                            enemigoSeleccionado.setSeleccionable(2);
                         }
                         if ((personajes.get(0).getSeleccionable() == 2) && (personajes.get(1).getSeleccionable() == 2)) {
-                            personajes.get(0).setSeleccionable(1); //Pasar a ponerselo al grupo designado
-                            personajes.get(1).setSeleccionable(1);
-                            personajes.get(2).setSeleccionable(0); //Pasar a ponerselo al grupo designado
-                            personajes.get(3).setSeleccionable(0);
+                            for (int j = 0; j < 4; j++) { //configurar para que sea por grupos
+                                if (personajes.get(j).getMuerto() == false) {
+                                    if (j < 2) {
+                                        personajes.get(j).setSeleccionable(1);
+                                    } else {
+                                        personajes.get(j).setSeleccionable(0);
+                                    }
+                                }
+                            }
+                            System.out.println();
+                            System.out.println("Cambio de Turno");
+                            System.out.println();
                         }
                         personajeSeleccionado = null;
                         enemigoSeleccionado = null;
@@ -188,14 +197,23 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                         personajeSeleccionado.setSeleccionable(2);
                         enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - 30);
                         System.out.println("A " + enemigoSeleccionado.getName() + " le queda " + enemigoSeleccionado.getVidaRestante() + " de vida restante.");
-                        if (enemigoSeleccionado.getVidaRestante()<=0){
+                        if (enemigoSeleccionado.getVidaRestante() <= 0) {
                             enemigoSeleccionado.setMuerto(true);
+                            enemigoSeleccionado.setSeleccionable(2);
                         }
                         if ((personajes.get(2).getSeleccionable() == 2) && (personajes.get(3).getSeleccionable() == 2)) {
-                            personajes.get(0).setSeleccionable(0); //Pasar a ponerselo al grupo designado
-                            personajes.get(1).setSeleccionable(0);
-                            personajes.get(2).setSeleccionable(1); //Pasar a ponerselo al grupo designado
-                            personajes.get(3).setSeleccionable(1);
+                            for (int j = 0; j < 4; j++) { //configurar para que sea por grupos
+                                if (personajes.get(j).getMuerto() == false) {
+                                    if (j < 2) {
+                                        personajes.get(j).setSeleccionable(0);
+                                    } else {
+                                        personajes.get(j).setSeleccionable(1);
+                                    }
+                                }
+                            }
+                            System.out.println();
+                            System.out.println("Cambio de Turno");
+                            System.out.println();
                         }
                         personajeSeleccionado = null;
                         enemigoSeleccionado = null;
@@ -210,7 +228,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         }
         if ((personajes.get(2).getMuerto() == true) && (personajes.get(3).getMuerto() == true)) { //modificarlo para que revise a cada grupo
             System.out.println("Ganó el equipo de la izquierda");
-        } else if ((personajes.get(0).getMuerto() == true) && (personajes.get(1).getMuerto() == true)){ //modificarlo para que revise a cada grupo
+        } else if ((personajes.get(0).getMuerto() == true) && (personajes.get(1).getMuerto() == true)) { //modificarlo para que revise a cada grupo
             System.out.println("Ganó el equipo de la derecha");
         }
         for (int i = 0; i < personajes.size(); i++) {
@@ -307,7 +325,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                 } else if (personajes.get(i).getSeleccionable() == 0) {
                     personajeSeleccionado = personajes.get(i);
                 } else {
-                    System.out.println("Personaje ya usado");
+                    System.out.println("Personaje ya usado o muerto");
                 }
             }
         }
