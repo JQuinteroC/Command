@@ -28,12 +28,18 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
     int intAleatorio;
     Random aleatorio;
     Invocador invoker = Invocador.obtenerInvocador();
+    Boolean varTemporalHuevo;
+    int contadorIzq;
+    int contadorDer;
 
     public FRM_Visor(Personaje p1, Personaje huevo, Personaje p2, int cancion) {
         super("Magos y Duendes");
         // Instancia de la ventana
         initComponents();
         super.setLocationRelativeTo(null);
+        varTemporalHuevo = true;
+        contadorIzq = 51;
+        contadorDer = 51;
         // Configuración del personaje y grupo
         p1.setPanel(panel);
         personajes.add(p1);
@@ -76,9 +82,9 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         //Metiendo al huevito
         huevo.setPanel(panel);
         huevos.add(huevo);
-        huevos.get(0).setDesplazamientoVertical(50);
+        huevos.get(0).setDesplazamientoVertical(120);
         huevos.get(0).setDesplazamientoHorizontal(480);
-        huevos.get(0).setHitbox(480 - 91, 50 - 40, huevos.get(0).getAncho() + 192, (huevos.get(0).getAlto() / 2) + 125);
+        huevos.get(0).setHitbox(480 - 91, 120 - 40, huevos.get(0).getAncho() + 192, (huevos.get(0).getAlto() / 2) + 125);
 
         // Integración del listener 
         addKeyListener(this);
@@ -134,6 +140,15 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                 personajes.clear();
                 huevos.clear();
                 this.dispose();
+                break;
+            case '3':
+                contadorDer++;
+                if (contadorDer == 50) {
+                    personajes.get(2).setVidaRestante(personajes.get(2).getVidaRestante() + 30);
+                    contadorIzq = 51;
+                    System.out.println("Ahora " + personajes.get(2).getName() + " tiene " + personajes.get(2).getVidaRestante() + " de vida.");
+                    panel.remove(huevos.get(0));
+                }
                 break;
 
             case ' ':
