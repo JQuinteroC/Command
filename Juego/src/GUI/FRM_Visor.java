@@ -189,7 +189,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
             case ' ': //Atacar
                 if ((personajeSeleccionado != null) && (enemigoSeleccionado != null)) {
                     if ((personajes.get(2).getSeleccionable() == 1) || (personajes.get(3).getSeleccionable() == 1)) { //Pasar a revisar el grupo en lugar de solo un personaje
-                        grupos.grupo1.operar(e); //Metan aqui la animación de ataque
+                        grupos.grupo1.operar(e); //Metan aqui la animación de ataque.
                         System.out.println("El " + personajeSeleccionado.getName() + " ataca a " + enemigoSeleccionado.getName());
                         personajeSeleccionado.setSeleccionable(2);
                         if (enemigoSeleccionado.getDefendiendo() == true) {
