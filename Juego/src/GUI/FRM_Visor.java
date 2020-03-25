@@ -1,7 +1,5 @@
 package GUI;
 
-import Logica.Invocador;
-import Logica.Mascota;
 import Logica.Personaje;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -30,7 +28,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
     Random aleatorio;
 
     public FRM_Visor(Personaje p1, Personaje huevo, Personaje p2, int cancion) {
-
+        super("Magos y Duendes");
         // Instancia de la ventana
         initComponents();
         super.setLocationRelativeTo(null);
@@ -59,6 +57,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         personajes.get(2).setAncho(-personajes.get(2).getAncho());
         personajes.get(2).setHitbox(890, 280, -personajes.get(2).getAncho(), personajes.get(2).getAlto());
         personajes.get(2).setName(personajes.get(2).getName() + " 1");
+
         personajes.get(3).setDesplazamientoVertical(300);
         personajes.get(3).setDesplazamientoHorizontal(1080);
         personajes.get(3).setAncho(-personajes.get(3).getAncho());
@@ -79,7 +78,6 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         huevos.get(0).setDesplazamientoVertical(50);
         huevos.get(0).setDesplazamientoHorizontal(480);
         huevos.get(0).setHitbox(480 - 91, 50 - 40, huevos.get(0).getAncho() + 192, (huevos.get(0).getAlto() / 2) + 125);
-//        panel.add(huevos.get(0));
 
         // Integración del listener 
         addKeyListener(this);
@@ -131,44 +129,12 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                     Logger.getLogger(FRM_Visor.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 selector.setVisible(true);
-
                 // Se interrumpe el hilo de musica
                 repro[0].stop();
                 repro[1].stop();
                 personajes.clear();
                 huevos.clear();
                 this.dispose();
-                break;
-            case '+':
-                boolean agregado = false;
-                for (int i = 0; i < 4; i++) {
-                    if (grupos.grupo1.isHere(personajes.get(i))) {
-                    } else {
-                        grupos.grupo2.deletePerson(personajes.get(i));
-                        grupos.grupo1.addPersonaje(personajes.get(i));
-                        agregado = true;
-                        i = 10;
-                    }
-                }
-                if (!agregado) {
-                    JOptionPane.showMessageDialog(null, "No hay mas personajes para agregar");
-                }
-
-                break;
-            case '-':
-                agregado = false;
-                for (int i = 3; i >= 0; i--) {
-                    if (grupos.grupo2.isHere(personajes.get(i))) {
-                    } else {
-                        grupos.grupo1.deletePerson(personajes.get(i));
-                        grupos.grupo2.addPersonaje(personajes.get(i));
-                        agregado = true;
-                        i = -1;
-                    }
-                }
-                if (!agregado) {
-                    JOptionPane.showMessageDialog(null, "No hay mas personajes para agregar");
-                }
                 break;
             case 10:
                 grupos.grupo1.cambiarControl();
@@ -287,48 +253,8 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                 }
                 break;
             default:
-                // JOptionPane.showMessageDialog(null, e.getKeyCode());
-//                System.out.println(e.getKeyChar());
                 grupos.grupo1.operar(e);
                 break;
-        }
-        if ((personajes.get(2).getMuerto() == true) && (personajes.get(3).getMuerto() == true)) { //modificarlo para que revise a cada grupo
-            System.out.println("Ganó el equipo de la izquierda");
-        } else if ((personajes.get(0).getMuerto() == true) && (personajes.get(1).getMuerto() == true)) { //modificarlo para que revise a cada grupo
-            System.out.println("Ganó el equipo de la derecha");
-        }
-        for (int i = 0; i < personajes.size(); i++) {
-            for (int j = 0; j < huevos.size(); j++) {
-                if (personajes.get(i).getHitbox().intersects(huevos.get(j).getHitbox())) {
-                    int team = 0;
-                    huevos.get(j).interrumpir();
-                    panel.remove(huevos.get(j));
-                    huevos.remove(j);
-                    personajes.get(i).interrumpir();
-                    panel.remove(personajes.get(i));
-                    if (grupos.grupo1.isHere(personajes.get(i))) {
-                        grupos.grupo1.deletePerson(personajes.get(i));
-                        team = 1;
-                    } else {
-                        grupos.grupo2.deletePerson(personajes.get(i));
-                        team = 2;
-                    }
-                    Personaje mas;
-                    try {
-                        mas = new Mascota(personajes.get(i), panel);
-                        personajes.set(i, mas);
-                        if (team == 1) {
-                            grupos.grupo1.addPersonaje(mas);
-                        } else {
-                            grupos.grupo2.addPersonaje(mas);
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(FRM_Visor.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    panel.add(personajes.get(i));
-                    panel.repaint();
-                }
-            }
         }
     }
 
@@ -401,14 +327,6 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
     private javax.swing.JLabel fondo;
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables
-
-    private boolean colision(Personaje p, Personaje huevo) {
-        if ((p.getDesplazamientoHorizontal() + p.getAncho() > huevo.getDesplazamientoHorizontal()) & (p.getDesplazamientoHorizontal() < huevo.getDesplazamientoHorizontal() + (huevo.getAncho())) & (p.getDesplazamientoVertical() > huevo.getDesplazamientoVertical()) & (p.getDesplazamientoVertical() < huevo.getDesplazamientoVertical() + (huevo.getAlto()))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     private boolean colisionPointer(int x, int y, Personaje personaje) {
         if ((x > personaje.getHitbox().getX()) & (x < personaje.getHitbox().getX() + (personaje.getHitbox().getWidth())) & (y > personaje.getHitbox().getY()) & (y < personaje.getHitbox().getY() + personaje.getHitbox().getHeight())) {

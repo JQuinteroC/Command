@@ -87,34 +87,6 @@ public class Personaje extends JComponent implements Cloneable, Composite {
                     switch (x) {
                         case 0:
                             numero++;
-                            switch (desplazamiento) { //Personaje Individual
-                                case 39:
-                                    desplazamientoHorizontal += 24;
-                                    hitbox.x += 24;
-                                    tempDesplazamiento = desplazamiento;
-                                    desplazamiento = 0;
-                                    break;
-                                case 38:
-                                    desplazamientoVertical -= 24;
-                                    hitbox.y -= 24;
-                                    tempDesplazamiento = desplazamiento;
-                                    desplazamiento = 0;
-                                    break;
-                                case 37:
-                                    desplazamientoHorizontal -= 24;
-                                    hitbox.x -= 24;
-                                    tempDesplazamiento = desplazamiento;
-                                    desplazamiento = 0;
-                                    break;
-                                case 40:
-                                    desplazamientoVertical += 24;
-                                    hitbox.y += 24;
-                                    tempDesplazamiento = desplazamiento;
-                                    desplazamiento = 0;
-                                    break;
-                                default:
-                                    break;
-                            }
                             numero = numero % idle;
                             panel.repaint();
                             hilo.sleep(sleep+30);

@@ -12,7 +12,7 @@ public abstract class EstrategiaControl {
     Personaje personaje;
     int accion;
     Invocador invoker;
-    
+
     public EstrategiaControl(KeyEvent evento, Personaje personaje) {
         this.evento = evento;
         this.personaje = personaje;
@@ -21,40 +21,20 @@ public abstract class EstrategiaControl {
     public void operar() {
         identificarEvento();
         if (accion == 1) {
-            personaje.desplazamiento = 39;
-            personaje.idle();
-        }
-        if (accion == 2) {
-            personaje.desplazamiento = 38;
-            personaje.idle();
-        }
-        if (accion == 3) {
-            personaje.desplazamiento = 37;
-            personaje.idle();
-        }
-        if (accion == 4) {
-            personaje.desplazamiento = 40;
-            personaje.idle();
-        }
-        if (accion == 5) {
             invoker = Invocador.obtenerInvocador();
             invoker.comando.add(new Atacar(personaje));
-           // JOptionPane.showMessageDialog(null, invoker.comando.size());
-           // personaje.atacar();
         }
-        if (accion == 6) {
-            personaje.morir();
-        }
-        if (accion == 7) {
+        if (accion == 2) {
             invoker = Invocador.obtenerInvocador();
             invoker.comando.add(new Saltar(personaje));
-            //personaje.saltar();
+        }
+        if (accion == 3) {
+            personaje.morir();
         }
         if (accion == 8) {
             personaje.interrumpir();
-
         }
-        if(accion == 9){
+        if (accion == 9) {
             invoker = Invocador.obtenerInvocador();
             invoker.ejecutarComandos();
         }
