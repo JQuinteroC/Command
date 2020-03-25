@@ -89,6 +89,11 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         repro[0].setSuccessor(repro[1]);
         repro[0].cancion = cancion;
         repro[0].start();
+        
+        personajes.get(0).idle();
+        personajes.get(1).idle();
+        personajes.get(2).idle();
+        personajes.get(3).idle();
 
         //Definicion de primer turno, quienes se pueden seleccionar, empezamos por izquierda, solo hay que seleccionar el enemigo
         personajes.get(0).setSeleccionable(0); //Pasar a ponerselo al grupo designado
