@@ -144,14 +144,14 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
             case 10:
                 grupos.grupo1.cambiarControl();
                 break;
-            case 'b':
+            case 'b': //Defender
                 if (personajeSeleccionado != null) {
                     personajeSeleccionado.setDefendiendo(true);
                     personajeSeleccionado.setSeleccionable(2);
                     System.out.println("El " + personajeSeleccionado.getName() + " se defiende");
                     personajeSeleccionado = null;
                     enemigoSeleccionado = null;
-                    if ((personajes.get(0).getSeleccionable() == 2) && (personajes.get(1).getSeleccionable() == 2)) {
+                    if ((personajes.get(0).getSeleccionable() == 2) && (personajes.get(1).getSeleccionable() == 2)) { //Si ya no quedan personajes pa seleccionar se pasa el turno
                         for (int j = 0; j < 4; j++) { //configurar para que sea por grupos
                             if (personajes.get(j).getMuerto() == false) {
                                 if (j < 2) {
@@ -168,7 +168,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                         System.out.println("Cambio de Turno");
                         System.out.println();
                     }
-                    if ((personajes.get(2).getSeleccionable() == 2) && (personajes.get(3).getSeleccionable() == 2)) {
+                    if ((personajes.get(2).getSeleccionable() == 2) && (personajes.get(3).getSeleccionable() == 2)) { //Si ya no quedan personajes pa seleccionar se pasa el turno
                         for (int j = 0; j < 4; j++) { //configurar para que sea por grupos
                             if (personajes.get(j).getMuerto() == false) {
                                 if (j < 2) {
@@ -186,10 +186,10 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                         System.out.println();
                     }
                 }
-            case ' ':
+            case ' ': //Atacar
                 if ((personajeSeleccionado != null) && (enemigoSeleccionado != null)) {
                     if ((personajes.get(2).getSeleccionable() == 1) || (personajes.get(3).getSeleccionable() == 1)) { //Pasar a revisar el grupo en lugar de solo un personaje
-                        grupos.grupo1.operar(e);
+                        grupos.grupo1.operar(e); //Metan aqui la animación de ataque
                         System.out.println("El " + personajeSeleccionado.getName() + " ataca a " + enemigoSeleccionado.getName());
                         personajeSeleccionado.setSeleccionable(2);
                         if (enemigoSeleccionado.getDefendiendo() == true) {
@@ -198,7 +198,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                             enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - intAleatorio);
                         }
                         System.out.println("A " + enemigoSeleccionado.getName() + " le queda " + enemigoSeleccionado.getVidaRestante() + " de vida restante.");
-                        if (enemigoSeleccionado.getVidaRestante() <= 0) {
+                        if (enemigoSeleccionado.getVidaRestante() <= 0) { //Matar a los que tengan menos de 0 de vida y son bloqueados
                             enemigoSeleccionado.setMuerto(true);
                             enemigoSeleccionado.setSeleccionable(2);
                         }
@@ -222,7 +222,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                         personajeSeleccionado = null;
                         enemigoSeleccionado = null;
                     } else if ((personajes.get(0).getSeleccionable() == 1) || (personajes.get(1).getSeleccionable() == 1)) {
-                        grupos.grupo2.operar(e);
+                        grupos.grupo2.operar(e); //Metan aqui la animación de ataque
                         System.out.println("El " + personajeSeleccionado.getName() + " ataca a " + enemigoSeleccionado.getName());
                         personajeSeleccionado.setSeleccionable(2);
                         if (enemigoSeleccionado.getDefendiendo() == true) {
@@ -231,7 +231,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                             enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - intAleatorio);
                         }
                         System.out.println("A " + enemigoSeleccionado.getName() + " le queda " + enemigoSeleccionado.getVidaRestante() + " de vida restante.");
-                        if (enemigoSeleccionado.getVidaRestante() <= 0) {
+                        if (enemigoSeleccionado.getVidaRestante() <= 0) { //Matar a los que tengan menos de 0 de vida y son bloqueados
                             enemigoSeleccionado.setMuerto(true);
                             enemigoSeleccionado.setSeleccionable(2);
                         }
