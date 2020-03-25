@@ -26,6 +26,9 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
     Boolean turno;
     int intAleatorio;
     Random aleatorio;
+    Boolean varTemporalHuevo;
+    int contadorIzq;
+    int contadorDer;
 
     public FRM_Visor(Personaje p1, Personaje huevo, Personaje p2, int cancion) {
         super("Magos y Duendes");
@@ -33,6 +36,9 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         initComponents();
         super.setLocationRelativeTo(null);
         turno = false;
+        varTemporalHuevo = true;
+        contadorIzq = 51;
+        contadorDer = 51;
         // Configuración del personaje y grupo
         p1.setPanel(panel);
         personajes.add(p1);
@@ -75,9 +81,9 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         //Metiendo al huevito
         huevo.setPanel(panel);
         huevos.add(huevo);
-        huevos.get(0).setDesplazamientoVertical(50);
+        huevos.get(0).setDesplazamientoVertical(120);
         huevos.get(0).setDesplazamientoHorizontal(480);
-        huevos.get(0).setHitbox(480 - 91, 50 - 40, huevos.get(0).getAncho() + 192, (huevos.get(0).getAlto() / 2) + 125);
+        huevos.get(0).setHitbox(480 - 91, 120 - 40, huevos.get(0).getAncho() + 192, (huevos.get(0).getAlto() / 2) + 125);
 
         // Integración del listener 
         addKeyListener(this);
@@ -93,7 +99,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         repro[0].setSuccessor(repro[1]);
         repro[0].cancion = cancion;
         repro[0].start();
-        
+
         personajes.get(0).idle();
         personajes.get(1).idle();
         personajes.get(2).idle();
@@ -144,6 +150,24 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
             case 10:
                 grupos.grupo1.cambiarControl();
                 break;
+            case 'z':
+                contadorIzq++;
+                if (contadorIzq==50){
+                    personajes.get(0).setVidaRestante(personajes.get(0).getVidaRestante()+30);
+                    contadorDer=51;
+                    System.out.println("Ahora "+personajes.get(0).getName()+" tiene "+personajes.get(0).getVidaRestante()+" de vida.");
+                    panel.remove(huevos.get(0));
+                }
+                break;
+            case '3':
+                contadorDer++;
+                if (contadorDer==50){
+                    personajes.get(2).setVidaRestante(personajes.get(2).getVidaRestante()+30);
+                    contadorIzq=51;
+                    System.out.println("Ahora "+personajes.get(2).getName()+" tiene "+personajes.get(2).getVidaRestante()+" de vida.");
+                    panel.remove(huevos.get(0));
+                }
+                break;
             case 'b': //Defender
                 if (personajeSeleccionado != null) {
                     personajeSeleccionado.setDefendiendo(true);
@@ -186,6 +210,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                         System.out.println();
                     }
                 }
+                break;
             case ' ': //Atacar
                 if ((personajeSeleccionado != null) && (enemigoSeleccionado != null)) {
                     if ((personajes.get(2).getSeleccionable() == 1) || (personajes.get(3).getSeleccionable() == 1)) { //Pasar a revisar el grupo en lugar de solo un personaje
@@ -198,6 +223,12 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                             enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - intAleatorio);
                         }
                         System.out.println("A " + enemigoSeleccionado.getName() + " le queda " + enemigoSeleccionado.getVidaRestante() + " de vida restante.");
+                        if ((enemigoSeleccionado.getVidaRestante() <= 20) && (varTemporalHuevo == true)) {
+                            panel.add(huevos.get(0));
+                            contadorIzq=0;
+                            contadorDer=0;
+                            varTemporalHuevo = false;
+                        }
                         if (enemigoSeleccionado.getVidaRestante() <= 0) { //Matar a los que tengan menos de 0 de vida y son bloqueados
                             enemigoSeleccionado.setMuerto(true);
                             enemigoSeleccionado.setSeleccionable(2);
@@ -231,6 +262,12 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                             enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - intAleatorio);
                         }
                         System.out.println("A " + enemigoSeleccionado.getName() + " le queda " + enemigoSeleccionado.getVidaRestante() + " de vida restante.");
+                        if ((enemigoSeleccionado.getVidaRestante() <= 20) && (varTemporalHuevo == true)) {
+                            panel.add(huevos.get(0));
+                            contadorIzq=0;
+                            contadorDer=0;
+                            varTemporalHuevo = false;
+                        }
                         if (enemigoSeleccionado.getVidaRestante() <= 0) { //Matar a los que tengan menos de 0 de vida y son bloqueados
                             enemigoSeleccionado.setMuerto(true);
                             enemigoSeleccionado.setSeleccionable(2);
