@@ -29,6 +29,7 @@ public class Poblacion implements Composite {
             poblacion.get(i).cambiarControl();
         }
     }
+    
     public boolean isHere(Personaje p) {
         if (poblacion.contains(p)) {
             return true;

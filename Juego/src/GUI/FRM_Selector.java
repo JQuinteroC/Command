@@ -25,6 +25,7 @@ public class FRM_Selector extends javax.swing.JFrame {
      * Creates new form FRM_Selector
      */
     private FRM_Selector() throws IOException {
+        super("Seleccione Personaje");
         initComponents();
         super.setLocationRelativeTo(null);
         Image s = ImageIO.read(new File("Recursos\\Wizard\\Idle\\VSMago0.png"));
