@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.JOptionPane;
 
 public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observable {
@@ -25,6 +26,8 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
     Personaje personajeSeleccionado;
     Personaje enemigoSeleccionado;
     Boolean turno;
+    int intAleatorio;
+    Random aleatorio;
 
     public FRM_Visor(Personaje p1, Personaje huevo, Personaje p2, int cancion) {
 
@@ -98,6 +101,11 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         personajes.get(1).setSeleccionable(0);
         personajes.get(2).setSeleccionable(1); //Pasar a ponerselo al grupo designado
         personajes.get(3).setSeleccionable(1);
+
+        //Definicion de Random
+        aleatorio = new Random(System.currentTimeMillis());
+        // Producir nuevo int aleatorio entre 7 y 14
+        intAleatorio = aleatorio.nextInt(8) + 8;
     }
 
     @Override
@@ -112,6 +120,8 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
 
     @Override
     public void keyPressed(KeyEvent e) {
+        aleatorio.setSeed(System.currentTimeMillis()); //Se actualiza la seed del random
+        intAleatorio = aleatorio.nextInt(8) + 8;
         switch (e.getKeyChar()) {
             case 'q':
                 FRM_Selector selector = null;
@@ -163,13 +173,59 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
             case 10:
                 grupos.grupo1.cambiarControl();
                 break;
+            case 'b':
+                if (personajeSeleccionado != null) {
+                    personajeSeleccionado.setDefendiendo(true);
+                    personajeSeleccionado.setSeleccionable(2);
+                    System.out.println("El " + personajeSeleccionado.getName() + " se defiende");
+                    personajeSeleccionado = null;
+                    enemigoSeleccionado = null;
+                    if ((personajes.get(0).getSeleccionable() == 2) && (personajes.get(1).getSeleccionable() == 2)) {
+                        for (int j = 0; j < 4; j++) { //configurar para que sea por grupos
+                            if (personajes.get(j).getMuerto() == false) {
+                                if (j < 2) {
+                                    personajes.get(j).setSeleccionable(1);
+                                } else {
+                                    personajes.get(j).setSeleccionable(0);
+                                    if (personajes.get(j).getDefendiendo() == true) {
+                                        personajes.get(j).setDefendiendo(false);
+                                    }
+                                }
+                            }
+                        }
+                        System.out.println();
+                        System.out.println("Cambio de Turno");
+                        System.out.println();
+                    }
+                    if ((personajes.get(2).getSeleccionable() == 2) && (personajes.get(3).getSeleccionable() == 2)) {
+                        for (int j = 0; j < 4; j++) { //configurar para que sea por grupos
+                            if (personajes.get(j).getMuerto() == false) {
+                                if (j < 2) {
+                                    personajes.get(j).setSeleccionable(0);
+                                    if (personajes.get(j).getDefendiendo() == true) {
+                                        personajes.get(j).setDefendiendo(false);
+                                    }
+                                } else {
+                                    personajes.get(j).setSeleccionable(1);
+                                }
+                            }
+                        }
+                        System.out.println();
+                        System.out.println("Cambio de Turno");
+                        System.out.println();
+                    }
+                }
             case ' ':
                 if ((personajeSeleccionado != null) && (enemigoSeleccionado != null)) {
                     if ((personajes.get(2).getSeleccionable() == 1) || (personajes.get(3).getSeleccionable() == 1)) { //Pasar a revisar el grupo en lugar de solo un personaje
                         grupos.grupo1.operar(e);
                         System.out.println("El " + personajeSeleccionado.getName() + " ataca a " + enemigoSeleccionado.getName());
                         personajeSeleccionado.setSeleccionable(2);
-                        enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - 30);
+                        if (enemigoSeleccionado.getDefendiendo() == true) {
+                            enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - intAleatorio + 7);
+                        } else {
+                            enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - intAleatorio);
+                        }
                         System.out.println("A " + enemigoSeleccionado.getName() + " le queda " + enemigoSeleccionado.getVidaRestante() + " de vida restante.");
                         if (enemigoSeleccionado.getVidaRestante() <= 0) {
                             enemigoSeleccionado.setMuerto(true);
@@ -182,6 +238,9 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                                         personajes.get(j).setSeleccionable(1);
                                     } else {
                                         personajes.get(j).setSeleccionable(0);
+                                        if (personajes.get(j).getDefendiendo() == true) {
+                                            personajes.get(j).setDefendiendo(false);
+                                        }
                                     }
                                 }
                             }
@@ -195,7 +254,11 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                         grupos.grupo2.operar(e);
                         System.out.println("El " + personajeSeleccionado.getName() + " ataca a " + enemigoSeleccionado.getName());
                         personajeSeleccionado.setSeleccionable(2);
-                        enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - 30);
+                        if (enemigoSeleccionado.getDefendiendo() == true) {
+                            enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - intAleatorio + 7);
+                        } else {
+                            enemigoSeleccionado.setVidaRestante(enemigoSeleccionado.getVidaRestante() - intAleatorio);
+                        }
                         System.out.println("A " + enemigoSeleccionado.getName() + " le queda " + enemigoSeleccionado.getVidaRestante() + " de vida restante.");
                         if (enemigoSeleccionado.getVidaRestante() <= 0) {
                             enemigoSeleccionado.setMuerto(true);
@@ -206,6 +269,9 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                                 if (personajes.get(j).getMuerto() == false) {
                                     if (j < 2) {
                                         personajes.get(j).setSeleccionable(0);
+                                        if (personajes.get(j).getDefendiendo() == true) {
+                                            personajes.get(j).setDefendiendo(false);
+                                        }
                                     } else {
                                         personajes.get(j).setSeleccionable(1);
                                     }

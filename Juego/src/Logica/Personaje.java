@@ -369,4 +369,12 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     public void setMuerto(boolean i) {
         this.muerto = i;
     }
+
+    public boolean getDefendiendo() {
+        return defendiendo;
+    }
+
+    public void setDefendiendo(boolean b) {
+        this.defendiendo = b;
+    }
 }
