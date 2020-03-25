@@ -33,7 +33,9 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     protected EstrategiaControl control;   /// Borrar
     protected boolean tipoControl;         /// Borrar
     public int vidaRest = 60;
-    public boolean seleccionable;
+    public int seleccionable; //0 no seleccionable, 1 seleccionable, 2 bloqueado
+    public boolean defendiendo;
+    public boolean muerto; //Si está muerto no se puede seleccionar
 
     // CONSTRUCTOR
     public Personaje() {
@@ -50,6 +52,9 @@ public class Personaje extends JComponent implements Cloneable, Composite {
         isMago = false;
         panel = null;
         tipoControl = true;
+        seleccionable = 0;
+        defendiendo = false;
+        muerto = false;
     }
 
     // SET AND GET
@@ -82,34 +87,6 @@ public class Personaje extends JComponent implements Cloneable, Composite {
                     switch (x) {
                         case 0:
                             numero++;
-                            switch (desplazamiento) { //Personaje Individual
-                                case 39:
-                                    desplazamientoHorizontal += 24;
-                                    hitbox.x += 24;
-                                    tempDesplazamiento = desplazamiento;
-                                    desplazamiento = 0;
-                                    break;
-                                case 38:
-                                    desplazamientoVertical -= 24;
-                                    hitbox.y -= 24;
-                                    tempDesplazamiento = desplazamiento;
-                                    desplazamiento = 0;
-                                    break;
-                                case 37:
-                                    desplazamientoHorizontal -= 24;
-                                    hitbox.x -= 24;
-                                    tempDesplazamiento = desplazamiento;
-                                    desplazamiento = 0;
-                                    break;
-                                case 40:
-                                    desplazamientoVertical += 24;
-                                    hitbox.y += 24;
-                                    tempDesplazamiento = desplazamiento;
-                                    desplazamiento = 0;
-                                    break;
-                                default:
-                                    break;
-                            }
                             numero = numero % idle;
                             panel.repaint();
                             hilo.sleep(sleep+30);
@@ -119,6 +96,9 @@ public class Personaje extends JComponent implements Cloneable, Composite {
                             numero = numero % herir;
                             panel.repaint();
                             hilo.sleep(sleep);
+                            if (numero + 1== herir) {
+                                idle();
+                            }
                             break;
                         case 2:
                             numero++;
@@ -134,6 +114,9 @@ public class Personaje extends JComponent implements Cloneable, Composite {
                             numero = numero % atacar;
                             panel.repaint();
                             hilo.sleep(sleep);
+                            if (numero + 1== atacar) {
+                                idle();
+                            }
                             break;
                         default:
                             break;
@@ -210,27 +193,27 @@ public class Personaje extends JComponent implements Cloneable, Composite {
                     break;
                 case 1:
                     if (isMago && this.ancho < 0) {
-                        g.drawImage(herir[numero].getImage(), 55 + desplazamientoHorizontal, -38 + desplazamientoVertical, ancho + 5, alto + 30, null);
+                        g.drawImage(herir[numero].getImage(), 65 + desplazamientoHorizontal, -3 + desplazamientoVertical, ancho - 50, alto + 18, null);
                     } else if (isMago) {
-                        g.drawImage(herir[numero].getImage(), 50 + desplazamientoHorizontal, -38 + desplazamientoVertical, ancho - 8, alto + 30, null);
+                        g.drawImage(herir[numero].getImage(), 35 + desplazamientoHorizontal, -3 + desplazamientoVertical, ancho + 50, alto + 18, null);
                     } else {
                         g.drawImage(herir[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
                     }
                     break;
                 case 2:
                     if (isMago && this.ancho < 0) {
-                        g.drawImage(morir[numero].getImage(), 55 + desplazamientoHorizontal, 2 + desplazamientoVertical, ancho + 10, alto - 2, null);
+                        g.drawImage(morir[numero].getImage(), 45 + desplazamientoHorizontal, -4 + desplazamientoVertical, ancho + 3, alto + 14, null);
                     } else if (isMago) {
-                        g.drawImage(morir[numero].getImage(), 55 + desplazamientoHorizontal, 2 + desplazamientoVertical, ancho - 8, alto - 2, null);
+                        g.drawImage(morir[numero].getImage(), 53 + desplazamientoHorizontal, -4 + desplazamientoVertical, ancho + 3, alto + 14, null);
                     } else {
                         g.drawImage(morir[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
                     }
                     break;
                 case 3:
                     if (isMago && this.ancho < 0) {
-                        g.drawImage(atacar[numero].getImage(), 55 + desplazamientoHorizontal, -25 + desplazamientoVertical, ancho - 140, alto + 45, null);
+                        g.drawImage(atacar[numero].getImage(), 55 + desplazamientoHorizontal, -25 + desplazamientoVertical, ancho - 155, alto + 60, null);
                     } else if (isMago) {
-                        g.drawImage(atacar[numero].getImage(), 50 + desplazamientoHorizontal, -25 + desplazamientoVertical, ancho + 150, alto + 45, null);
+                        g.drawImage(atacar[numero].getImage(), 45 + desplazamientoHorizontal, -30 + desplazamientoVertical, ancho + 165, alto + 60, null);
                     } else {
                         g.drawImage(atacar[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
                     }
@@ -333,5 +316,29 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     @Override
     public void cambiarControl() {
         tipoControl = !tipoControl;
+    }
+
+    public int getSeleccionable() {
+        return seleccionable;
+    }
+
+    public void setSeleccionable(int b) {
+        this.seleccionable = b;
+    }
+
+    public int getVidaRestante() {
+        return vidaRest;
+    }
+
+    public void setVidaRestante(int i) {
+        this.vidaRest = i;
+    }
+
+    public boolean getMuerto() {
+        return muerto;
+    }
+    
+    public void setMuerto(boolean i) {
+        this.muerto = i;
     }
 }

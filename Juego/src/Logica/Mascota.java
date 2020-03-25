@@ -21,7 +21,7 @@ public class Mascota extends Decorador {
         if (per.isIsMago()) { //MAGO
             setHilo(5, 5, 5, 5, 130);
         } else {  // OGRO
-            setHilo(24, 18, 15, 12, 50);
+            setHilo(17, 12, 15, 12, 50);
         }
         setPanel(panel);
     }
@@ -77,7 +77,7 @@ public class Mascota extends Decorador {
     }
 
     @Override
-    public void setHilo(int mover, int saltar, int morir, int atacar, int sleep) {
+    public void setHilo(int idle, int herir, int morir, int atacar, int sleep) {
         personaje.hilo = new Thread() {
             @Override
             public void run() {
@@ -110,27 +110,36 @@ public class Mascota extends Decorador {
                                     default:
                                         break;
                                 }
-                                personaje.numero = personaje.numero % mover;
+                                personaje.numero = personaje.numero % idle;
                                 panel.repaint();
-                                personaje.hilo.sleep(sleep);
+                                personaje.hilo.sleep(sleep+30);
                                 break;
                             case 1:
                                 personaje.numero++;
-                                personaje.numero = personaje.numero % saltar;
+                                personaje.numero = personaje.numero % herir;
                                 panel.repaint();
                                 personaje.hilo.sleep(sleep);
+                                if (personaje.numero + 1 == herir) {
+                                    idle();
+                                }
                                 break;
                             case 2:
                                 personaje.numero++;
                                 personaje.numero = personaje.numero % morir;
                                 panel.repaint();
                                 personaje.hilo.sleep(sleep);
+                                if (personaje.numero + 1 == morir) {
+                                    idle();
+                                }
                                 break;
                             case 3:
                                 personaje.numero++;
                                 personaje.numero = personaje.numero % atacar;
                                 panel.repaint();
                                 personaje.hilo.sleep(sleep);
+                                if (personaje.numero + 1 == atacar) {
+                                    idle();
+                                }
                                 break;
                             default:
                                 break;
