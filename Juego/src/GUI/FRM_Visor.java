@@ -141,6 +141,15 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                 huevos.clear();
                 this.dispose();
                 break;
+            case 'z':
+                contadorIzq++;
+                if (contadorIzq == 50) {
+                    personajes.get(0).setVidaRestante(personajes.get(0).getVidaRestante() + 30);
+                    contadorDer = 51;
+                    System.out.println("Ahora " + personajes.get(0).getName() + " tiene " + personajes.get(0).getVidaRestante() + " de vida.");
+                    panel.remove(huevos.get(0));
+                }
+                break;
             case '3':
                 contadorDer++;
                 if (contadorDer == 50) {
