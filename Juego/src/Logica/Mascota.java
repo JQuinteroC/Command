@@ -85,33 +85,9 @@ public class Mascota extends Decorador {
                         switch (personaje.x) {
                             case 0:
                                 personaje.numero++;
-                                switch (desplazamiento) {
-                                    case 39:
-                                        personaje.desplazamientoHorizontal += 24;
-                                        personaje.hitbox.x += 24;
-                                        desplazamiento = 0;
-                                        break;
-                                    case 38:
-                                        personaje.desplazamientoVertical -= 24;
-                                        personaje.hitbox.y -= 24;
-                                        desplazamiento = 0;
-                                        break;
-                                    case 37:
-                                        personaje.desplazamientoHorizontal -= 24;
-                                        personaje.hitbox.x -= 24;
-                                        desplazamiento = 0;
-                                        break;
-                                    case 40:
-                                        personaje.desplazamientoVertical += 24;
-                                        personaje.hitbox.y += 24;
-                                        desplazamiento = 0;
-                                        break;
-                                    default:
-                                        break;
-                                }
                                 personaje.numero = personaje.numero % idle;
                                 panel.repaint();
-                                personaje.hilo.sleep(sleep+30);
+                                personaje.hilo.sleep(sleep + 30);
                                 break;
                             case 1:
                                 personaje.numero++;
@@ -128,9 +104,9 @@ public class Mascota extends Decorador {
                                 panel.repaint();
                                 personaje.hilo.sleep(sleep);
                                 if (personaje.numero + 1 == morir) {
-                                    idle();
+                                    hilo.stop();
                                 }
-                                break;
+                                personaje.animar = false;
                             case 3:
                                 personaje.numero++;
                                 personaje.numero = personaje.numero % atacar;

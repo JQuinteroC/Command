@@ -30,7 +30,7 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     int desplazamientoHorizontal = 0;
     Rectangle hitbox;
     boolean isMago = false; // Variable solo para mantener el aspecto en las animaciónes del Mago
-    boolean animar = false; // Controla la ejecución de la animación
+    boolean animar = true; // Controla la ejecución de la animación
     static JPanel panel = null;
     public Thread hilo;
     public int vidaRest = 60;
@@ -83,7 +83,7 @@ public class Personaje extends JComponent implements Cloneable, Composite {
             @Override
             public void run() {
                 try {
-                    while (true) {
+                    while (animar) {
                         switch (x) {
                             case 0:
                                 numero++;
@@ -106,9 +106,10 @@ public class Personaje extends JComponent implements Cloneable, Composite {
                                 panel.repaint();
                                 hilo.sleep(sleep);
                                 if (numero + 1 == morir) {
+                                    animar = false;
+                                    muerto = true;
                                     hilo.stop();
                                 }
-                                animar = false;
                                 break;
                             case 3:
                                 numero++;
@@ -187,7 +188,14 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     @Override
     public void paint(Graphics g) {
         try {
-            g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+            //   g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+            if (muerto){
+                if(isMago){
+                    numero = 4;
+                } else{
+                    numero = 14;
+                }
+            }
             switch (x) {
                 case 0:
                     g.drawImage(idle[numero].getImage(), 50 + desplazamientoHorizontal, 0 + desplazamientoVertical, ancho, alto, null);
@@ -339,9 +347,9 @@ public class Personaje extends JComponent implements Cloneable, Composite {
 
     @Override
     public void operar() {
-        this.vidaRest+=20;
+        this.vidaRest += 20;
         try {
-            Personaje mas= new Mascota(this,this.panel);
+            Personaje mas = new Mascota(this, this.panel);
         } catch (IOException ex) {
             Logger.getLogger(Personaje.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -337,7 +337,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
             personajes.get(prin).seleccionable = 0;
             invoker.ejecutarComandos();
             if (personajes.get(ene1).vidaRest <= 0) {
-                personajes.get(ene1).muerto = true;
+                //personajes.get(ene1).muerto = true;
                 if (grupos.grupo1.isHere(personajes.get(ene1))) {
                     grupos.grupo1.deletePerson(personajes.get(ene1));
                 } else {
@@ -346,7 +346,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                 personajes.get(ene1).morir();
             }
             if (personajes.get(ene2).vidaRest <= 0) {
-                personajes.get(ene2).muerto = true;
+               // personajes.get(ene2).muerto = true;
                 if (grupos.grupo1.isHere(personajes.get(ene2))) {
                     grupos.grupo1.deletePerson(personajes.get(ene2));
                 } else {
