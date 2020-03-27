@@ -9,6 +9,5 @@ import Logica.Personaje;
 public interface Observador {
     
     public void update();
-    public void update(Personaje p);
     
 }

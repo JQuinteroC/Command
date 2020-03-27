@@ -3,6 +3,9 @@ package Logica;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -81,44 +84,45 @@ public class Personaje extends JComponent implements Cloneable, Composite {
             public void run() {
                 try {
                     while (true) {
-                    switch (x) {
-                        case 0:
-                            numero++;
-                            numero = numero % idle;
-                            panel.repaint();
-                            hilo.sleep(sleep+30);
-                            break;
-                        case 1:
-                            numero++;
-                            numero = numero % herir;
-                            panel.repaint();
-                            hilo.sleep(sleep);
-                            if (numero + 1== herir) {
-                                idle();
-                            }
-                            break;
-                        case 2:
-                            numero++;
-                            numero = numero % morir;
-                            panel.repaint();
-                            hilo.sleep(sleep);
-                            if (numero + 1== morir) {
-                                hilo.stop();
-                            }
-                            break;
-                        case 3:
-                            numero++;
-                            numero = numero % atacar;
-                            panel.repaint();
-                            hilo.sleep(sleep);
-                            if (numero + 1== atacar) {
-                                idle();
-                            }
-                            break;
-                        default:
-                            break;
-                    }
+                        switch (x) {
+                            case 0:
+                                numero++;
+                                numero = numero % idle;
+                                panel.repaint();
+                                hilo.sleep(sleep + 30);
+                                break;
+                            case 1:
+                                numero++;
+                                numero = numero % herir;
+                                panel.repaint();
+                                hilo.sleep(sleep);
+                                if (numero + 1 == herir) {
+                                    idle();
+                                }
+                                break;
+                            case 2:
+                                numero++;
+                                numero = numero % morir;
+                                panel.repaint();
+                                hilo.sleep(sleep);
+                                if (numero + 1 == morir) {
+                                    hilo.stop();
+                                }
+                                animar = false;
+                                break;
+                            case 3:
+                                numero++;
+                                numero = numero % atacar;
+                                panel.repaint();
+                                hilo.sleep(sleep);
+                                if (numero + 1 == atacar) {
+                                    idle();
+                                }
+                                break;
+                            default:
+                                break;
                         }
+                    }
                 } catch (java.lang.InterruptedException ex) {
                     System.out.println(ex.getMessage());
                 }
@@ -316,7 +320,7 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     public boolean getMuerto() {
         return muerto;
     }
-    
+
     public void setMuerto(boolean i) {
         this.muerto = i;
     }
@@ -335,6 +339,11 @@ public class Personaje extends JComponent implements Cloneable, Composite {
 
     @Override
     public void operar() {
-        //Se hace mascota
+        this.vidaRest+=20;
+        try {
+            Personaje mas= new Mascota(this,this.panel);
+        } catch (IOException ex) {
+            Logger.getLogger(Personaje.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

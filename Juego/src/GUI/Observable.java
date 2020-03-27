@@ -1,5 +1,7 @@
 package GUI;
 
+import Logica.Personaje;
+
 /**
  *
  * @author Mateo

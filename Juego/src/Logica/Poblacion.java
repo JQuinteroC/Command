@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class Poblacion implements Composite {
 
+    public boolean power = false;
     public boolean activo = false;
     private String nombrePoblacion = "";
     public ArrayList<Composite> poblacion = new ArrayList<>();

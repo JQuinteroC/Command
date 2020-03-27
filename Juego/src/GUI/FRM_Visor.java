@@ -29,6 +29,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
     Random aleatorio;
     Invocador invoker = Invocador.obtenerInvocador();
     Boolean varTemporalHuevo;
+    boolean aparecioHuevo = false;
     int contadorIzq;
     int contadorDer;
 
@@ -38,8 +39,8 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         initComponents();
         super.setLocationRelativeTo(null);
         varTemporalHuevo = true;
-        contadorIzq = 51;
-        contadorDer = 51;
+        contadorIzq = 0;
+        contadorDer = 0;
         // Configuración del personaje y grupo
         p1.setPanel(panel);
         personajes.add(p1);
@@ -118,7 +119,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
 
     @Override
     public void notificar() {
-        //owo
+        observadores.get(0).update();
     }
 
     @Override
@@ -142,21 +143,30 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                 this.dispose();
                 break;
             case 'z':
-                contadorIzq++;
-                if (contadorIzq == 50) {
-                    personajes.get(0).setVidaRestante(personajes.get(0).getVidaRestante() + 30);
-                    contadorDer = 51;
-                    System.out.println("Ahora " + personajes.get(0).getName() + " tiene " + personajes.get(0).getVidaRestante() + " de vida.");
-                    panel.remove(huevos.get(0));
+                if (aparecioHuevo && contadorDer < 50 && contadorIzq < 50) {
+                    contadorIzq++;
+                    System.out.println("Contador Z: " + contadorIzq);
+                    if (contadorIzq == 50) {
+                        panel.remove(huevos.get(0));
+                        grupos.grupo1.power = true;
+                        notificar();
+                        //personajes.get(0).setVidaRestante(personajes.get(0).getVidaRestante() + 30);
+                        contadorDer = 51;
+
+                    }
                 }
                 break;
             case '3':
-                contadorDer++;
-                if (contadorDer == 50) {
-                    personajes.get(2).setVidaRestante(personajes.get(2).getVidaRestante() + 30);
-                    contadorIzq = 51;
-                    System.out.println("Ahora " + personajes.get(2).getName() + " tiene " + personajes.get(2).getVidaRestante() + " de vida.");
-                    panel.remove(huevos.get(0));
+                if (aparecioHuevo && contadorDer < 50 && contadorIzq < 50) {
+                    contadorDer++;
+                    System.out.println("Contador 3: " + contadorDer);
+                    if (contadorDer == 50) {
+                        grupos.grupo2.power = true;
+                        //personajes.get(2).setVidaRestante(personajes.get(2).getVidaRestante() + 30);
+                        contadorIzq = 51;
+                        //System.out.println("Ahora " + personajes.get(2).getName() + " tiene " + personajes.get(2).getVidaRestante() + " de vida.");
+                        panel.remove(huevos.get(0));
+                    }
                 }
                 break;
 
@@ -187,6 +197,15 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                             turno(3, 2, 0, 1);
                         } else {
                             JOptionPane.showMessageDialog(null, "Escoge un personaje enemigo");
+                        }
+                    }
+                }
+                if (!aparecioHuevo) {
+                    for (int i = 0; i < personajes.size(); i++) {
+                        if (personajes.get(i).vidaRest <= 20) {
+                            panel.add(huevos.get(0));
+                            aparecioHuevo = true;
+                            break;
                         }
                     }
                 }
@@ -290,6 +309,8 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
     }
 
     private void turno(int prin, int compa, int ene1, int ene2) {
+
+        //control de acciones
         if (!personajes.get(prin).muerto) {
             String[] options = {"Atacar", "Defender"};
             int seleccions = JOptionPane.showOptionDialog(null, "¿Que quieres hacer?", "Acción", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
@@ -335,6 +356,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
             }
             invoker.comando.clear();
 
+            //control de turno
             if (personajes.get(compa).seleccionable == 0 || personajes.get(compa).muerto) {
                 if (grupos.grupo1.isHere(personajes.get(compa))) {
                     grupos.grupo1.activo = false;
@@ -348,6 +370,12 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
             }
         } else {
             JOptionPane.showMessageDialog(null, "Esta morido :C !!!!");
+        }
+        //Se obtiene un ganador
+        if (personajes.get(0).muerto && personajes.get(1).muerto) {
+            JOptionPane.showMessageDialog(null, "HA GANADO EL EQUIPO DERECHO!!");
+        } else if (personajes.get(2).muerto && personajes.get(3).muerto) {
+            JOptionPane.showMessageDialog(null, "HA GANADO EL EQUIPO IZQUIERDO!!");
         }
     }
 }
