@@ -16,6 +16,9 @@ public class Herir implements Command{
     
     private void hacerDaño(){
         personaje.herir(d);
+        if(personaje.vidaRest <= 0){
+            personaje.morir();
+        }
     }
 
     @Override

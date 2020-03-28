@@ -71,8 +71,8 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         personajes.get(3).setAncho(-personajes.get(3).getAncho());
         personajes.get(3).setHitbox(1080, 300, -personajes.get(3).getAncho(), personajes.get(3).getAlto());
         personajes.get(3).setName(personajes.get(3).getName() + " 2");
-        panel.add(personajes.get(2));
         panel.add(personajes.get(3));
+        panel.add(personajes.get(2));
 
         //se crean las poblaciones del patron Composite
         grupos.grupo1.addPersonaje(personajes.get(0));
@@ -336,24 +336,6 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
             }
             personajes.get(prin).seleccionable = 0;
             invoker.ejecutarComandos();
-            if (personajes.get(ene1).vidaRest <= 0) {
-                //personajes.get(ene1).muerto = true;
-                if (grupos.grupo1.isHere(personajes.get(ene1))) {
-                    grupos.grupo1.deletePerson(personajes.get(ene1));
-                } else {
-                    grupos.grupo2.deletePerson(personajes.get(ene1));
-                }
-                personajes.get(ene1).morir();
-            }
-            if (personajes.get(ene2).vidaRest <= 0) {
-               // personajes.get(ene2).muerto = true;
-                if (grupos.grupo1.isHere(personajes.get(ene2))) {
-                    grupos.grupo1.deletePerson(personajes.get(ene2));
-                } else {
-                    grupos.grupo2.deletePerson(personajes.get(ene2));
-                }
-                personajes.get(ene2).morir();
-            }
             invoker.comando.clear();
 
             //control de turno
