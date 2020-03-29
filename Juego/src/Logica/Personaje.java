@@ -1,8 +1,8 @@
 package Logica;
 
+import GUI.Grupos;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -188,11 +188,11 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     @Override
     public void paint(Graphics g) {
         try {
-            //   g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
-            if (muerto){
-                if(isMago){
+            // Hace que se congele en la última imagen de la animación de muerte
+            if (muerto) {
+                if (isMago) {
                     numero = 4;
-                } else{
+                } else {
                     numero = 14;
                 }
             }
@@ -346,10 +346,17 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     }
 
     @Override
-    public void operar() {
+    public void operar(int i, Grupos g) {
         this.vidaRest += 20;
         try {
             Personaje mas = new Mascota(this, this.panel);
+            if (g.grupo1.power) {
+                mas.setName(g.grupo1.get(1).getName());
+                g.grupo1.set(i, mas);                
+            } else {
+                mas.setName(g.grupo2.get(i).getName());
+                g.grupo2.set(i, mas);
+            }
         } catch (IOException ex) {
             Logger.getLogger(Personaje.class.getName()).log(Level.SEVERE, null, ex);
         }

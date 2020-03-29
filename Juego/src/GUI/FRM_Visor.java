@@ -119,7 +119,34 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
 
     @Override
     public void notificar() {
-        observadores.get(0).update();
+        if(grupos.grupo1.power){
+            panel.remove(personajes.get(0));
+            panel.remove(personajes.get(1));
+            
+            observadores.get(0).update();
+            personajes.set(0, (Personaje) grupos.grupo1.poblacion.get(0));
+            personajes.set(1, (Personaje) grupos.grupo1.poblacion.get(1));
+            
+            panel.add(personajes.get(0));
+            panel.add(personajes.get(1));
+            
+            personajes.get(0).idle();
+            personajes.get(1).idle();
+        } else{
+            panel.remove(personajes.get(2));
+            panel.remove(personajes.get(3));
+            
+            observadores.get(0).update();
+            personajes.set(2, (Personaje) grupos.grupo2.poblacion.get(0));
+            personajes.set(3, (Personaje) grupos.grupo2.poblacion.get(1));
+            
+            panel.add(personajes.get(2));
+            panel.add(personajes.get(3));
+            
+            personajes.get(2).idle();
+            personajes.get(3).idle();
+        }
+        panel.repaint();
     }
 
     @Override
@@ -149,10 +176,8 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                     if (contadorIzq == 50) {
                         panel.remove(huevos.get(0));
                         grupos.grupo1.power = true;
-                        notificar();
-                        //personajes.get(0).setVidaRestante(personajes.get(0).getVidaRestante() + 30);
                         contadorDer = 51;
-
+                        notificar();
                     }
                 }
                 break;
@@ -161,11 +186,10 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
                     contadorDer++;
                     System.out.println("Contador 3: " + contadorDer);
                     if (contadorDer == 50) {
-                        grupos.grupo2.power = true;
-                        //personajes.get(2).setVidaRestante(personajes.get(2).getVidaRestante() + 30);
-                        contadorIzq = 51;
-                        //System.out.println("Ahora " + personajes.get(2).getName() + " tiene " + personajes.get(2).getVidaRestante() + " de vida.");
                         panel.remove(huevos.get(0));
+                        grupos.grupo2.power = true;
+                        contadorIzq = 51;
+                        notificar();
                     }
                 }
                 break;

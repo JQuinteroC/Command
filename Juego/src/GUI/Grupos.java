@@ -9,15 +9,15 @@ import Logica.Poblacion;
  */
 public class Grupos implements Observador {
 
-    Poblacion grupo1 = new Poblacion("Grupo1");
-    Poblacion grupo2 = new Poblacion("Grupo2");
+    public Poblacion grupo1 = new Poblacion("Grupo 1");
+    public Poblacion grupo2 = new Poblacion("Grupo 2");
 
     @Override
     public void update() {
-        if(grupo1.power){
-            grupo1.operar();
-        }else{
-            grupo2.operar();
+        if (grupo1.power) {
+            grupo1.operar(0, this);
+        } else {
+            grupo2.operar(0, this);
         }
     }
 

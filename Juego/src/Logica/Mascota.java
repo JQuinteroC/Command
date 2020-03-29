@@ -17,6 +17,7 @@ public class Mascota extends Decorador {
 
     public Mascota(Personaje per, JPanel panel) throws IOException {
         super(per, panel);
+        per.interrumpir();
         if (per.isIsMago()) { //MAGO
             setHilo(5, 5, 5, 5, 130);
         } else {  // OGRO
@@ -28,7 +29,6 @@ public class Mascota extends Decorador {
     @Override
     public void paint(Graphics g) {
         try {
-            g.drawRect(personaje.hitbox.x, personaje.hitbox.y, personaje.hitbox.width, personaje.hitbox.height);
             ImageIcon mascota = new ImageIcon(ImageIO.read(new File("Recursos\\PowerUp\\1.png")));
             dibujarMascota(personaje, mascota, g);
             personaje.paint(g);
@@ -49,7 +49,9 @@ public class Mascota extends Decorador {
     }
 
    
-    public void herir() {
+    public void herir(int d) {
+        personaje.vidaRest = personaje.vidaRest - d;
+        System.out.println("A " + getName() + " le queda " + getVidaRestante() + " de vida restante.");
         personaje.x = 1;
         personaje.numero = 0;
         if (!personaje.hilo.isAlive()) {
@@ -61,9 +63,6 @@ public class Mascota extends Decorador {
     public void morir() {
         personaje.x = 2;
         personaje.numero = 0;
-        if (!personaje.hilo.isAlive()) {
-            personaje.hilo.start();
-        }
     }
 
     @Override
@@ -81,7 +80,7 @@ public class Mascota extends Decorador {
             @Override
             public void run() {
                 try {
-                    while (true) {
+                    while (personaje.animar) {
                         switch (personaje.x) {
                             case 0:
                                 personaje.numero++;
@@ -104,7 +103,9 @@ public class Mascota extends Decorador {
                                 panel.repaint();
                                 personaje.hilo.sleep(sleep);
                                 if (personaje.numero + 1 == morir) {
-                                    hilo.stop();
+                                    personaje.animar = false;
+                                    personaje.muerto = true;
+                                    personaje.hilo.stop();
                                 }
                                 personaje.animar = false;
                             case 3:

@@ -1,5 +1,6 @@
 package Logica;
 
+import GUI.Grupos;
 import java.util.ArrayList;
 
 /**
@@ -18,14 +19,13 @@ public class Poblacion implements Composite {
     }
 
     @Override
-    public void operar() {
+    public void operar(int j, Grupos g) {
         for (int i = 0; i < poblacion.size(); i++) {
-            poblacion.get(i).operar();
+            poblacion.get(i).operar(i, g);
         }
     }
 
-
-    public boolean isHere(Personaje p) {
+    public boolean isHere(Composite p) {
         if (poblacion.contains(p)) {
             return true;
         } else {
@@ -33,12 +33,25 @@ public class Poblacion implements Composite {
         }
     }
 
-    public void deletePerson(Personaje p) {
+    public void set(int index, Composite p) {
+        poblacion.set(index, p);
+    }
+    
+    public Composite get(int index){
+        return poblacion.get(index);
+    }
+    
+    public void deletePerson(Composite p) {
         poblacion.remove(p);
     }
 
     public void addPersonaje(Composite p) {
         this.poblacion.add(p);
+    }
+
+    @Override
+    public String getName() {
+        return getName();
     }
 
 }

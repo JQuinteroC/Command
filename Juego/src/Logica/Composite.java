@@ -1,6 +1,6 @@
 package Logica;
 
-import java.awt.event.KeyEvent;
+import GUI.Grupos;
 
 /**
  *
@@ -8,6 +8,8 @@ import java.awt.event.KeyEvent;
  */
 public interface Composite {
 
-    public void operar();
-    
+    public void operar(int i, Grupos g);
+
+    public String getName();
+
 }
