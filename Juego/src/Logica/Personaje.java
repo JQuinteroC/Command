@@ -37,6 +37,7 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     public int seleccionable; //0 no seleccionable, 1 seleccionado, 2 no seleccion
     public boolean defendiendo;
     public boolean muerto; //Si está muerto no se puede seleccionar
+    public boolean mascota; //si es mascota
 
     // CONSTRUCTOR
     public Personaje() {
@@ -351,10 +352,12 @@ public class Personaje extends JComponent implements Cloneable, Composite {
         try {
             Personaje mas = new Mascota(this, this.panel);
             if (g.grupo1.power) {
-                mas.setName(g.grupo1.get(1).getName());
+                mas.setName(g.grupo1.get(i).getName());
+                mas.setVidaRestante(this.getVidaRestante());
                 g.grupo1.set(i, mas);                
             } else {
                 mas.setName(g.grupo2.get(i).getName());
+                mas.setVidaRestante(this.getVidaRestante());
                 g.grupo2.set(i, mas);
             }
         } catch (IOException ex) {

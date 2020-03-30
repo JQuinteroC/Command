@@ -51,6 +51,7 @@ public class Mascota extends Decorador {
    
     public void herir(int d) {
         personaje.vidaRest = personaje.vidaRest - d;
+        this.setVidaRestante(personaje.getVidaRestante());
         System.out.println("A " + getName() + " le queda " + getVidaRestante() + " de vida restante.");
         personaje.x = 1;
         personaje.numero = 0;
@@ -63,6 +64,8 @@ public class Mascota extends Decorador {
     public void morir() {
         personaje.x = 2;
         personaje.numero = 0;
+        this.muerto = true;
+        this.numero=0;
     }
 
     @Override

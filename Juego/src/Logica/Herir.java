@@ -7,6 +7,7 @@ package Logica;
 public class Herir implements Command {
 
     Personaje personaje;
+    Mascota macota;
     int d;
 
     public Herir(Personaje personaje, int d) {
@@ -17,6 +18,8 @@ public class Herir implements Command {
     private void hacerDaño() {
         personaje.herir(d);
         if (personaje.vidaRest <= 0) {
+            personaje.muerto = true;
+            personaje.seleccionable = 0;
             personaje.morir();
         }
     }
