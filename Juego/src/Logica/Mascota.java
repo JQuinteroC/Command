@@ -29,6 +29,17 @@ public class Mascota extends Decorador {
     @Override
     public void paint(Graphics g) {
         try {
+            if (personaje.muerto) {
+                if (personaje.isMago) {
+                    if (personaje.numero + 1 == 4) {
+                        personaje.numero = 4;
+                    }
+                } else {
+                    if (personaje.numero + 1 == 14) {
+                        personaje.numero = 14;
+                    }
+                }
+            }
             ImageIcon mascota = new ImageIcon(ImageIO.read(new File("Recursos\\PowerUp\\1.png")));
             dibujarMascota(personaje, mascota, g);
             personaje.paint(g);
@@ -48,7 +59,6 @@ public class Mascota extends Decorador {
         }
     }
 
-   
     public void herir(int d) {
         personaje.vidaRest = personaje.vidaRest - d;
         this.setVidaRestante(personaje.getVidaRestante());
@@ -64,8 +74,7 @@ public class Mascota extends Decorador {
     public void morir() {
         personaje.x = 2;
         personaje.numero = 0;
-        this.muerto = true;
-        this.numero=0;
+        this.numero = 0;
     }
 
     @Override
@@ -110,7 +119,7 @@ public class Mascota extends Decorador {
                                     personaje.muerto = true;
                                     personaje.hilo.stop();
                                 }
-                                personaje.animar = false;
+                                break;
                             case 3:
                                 personaje.numero++;
                                 personaje.numero = personaje.numero % atacar;

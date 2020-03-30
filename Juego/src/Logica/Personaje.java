@@ -108,7 +108,6 @@ public class Personaje extends JComponent implements Cloneable, Composite {
                                 hilo.sleep(sleep);
                                 if (numero + 1 == morir) {
                                     animar = false;
-                                    muerto = true;
                                     hilo.stop();
                                 }
                                 break;
@@ -190,10 +189,12 @@ public class Personaje extends JComponent implements Cloneable, Composite {
     public void paint(Graphics g) {
         try {
             // Hace que se congele en la última imagen de la animación de muerte
-            if (muerto) {
-                if (isMago) {
+            if (isMago) {
+                if (numero + 1 == 4) {
                     numero = 4;
-                } else {
+                }
+            } else {
+                if (numero + 1 == 14) {
                     numero = 14;
                 }
             }
@@ -348,20 +349,22 @@ public class Personaje extends JComponent implements Cloneable, Composite {
 
     @Override
     public void operar(int i, Grupos g) {
-        this.vidaRest += 20;
-        try {
-            Personaje mas = new Mascota(this, this.panel);
-            if (g.grupo1.power) {
-                mas.setName(g.grupo1.get(i).getName());
-                mas.setVidaRestante(this.getVidaRestante());
-                g.grupo1.set(i, mas);                
-            } else {
-                mas.setName(g.grupo2.get(i).getName());
-                mas.setVidaRestante(this.getVidaRestante());
-                g.grupo2.set(i, mas);
+        if (!muerto) {
+            this.vidaRest += 20;
+            try {
+                Personaje mas = new Mascota(this, this.panel);
+                if (g.grupo1.power) {
+                    mas.setName(g.grupo1.get(i).getName());
+                    mas.setVidaRestante(this.getVidaRestante());
+                    g.grupo1.set(i, mas);
+                } else {
+                    mas.setName(g.grupo2.get(i).getName());
+                    mas.setVidaRestante(this.getVidaRestante());
+                    g.grupo2.set(i, mas);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(Personaje.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (IOException ex) {
-            Logger.getLogger(Personaje.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -127,12 +127,11 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
         aleatorio = new Random(System.currentTimeMillis());
         // Producir nuevo int aleatorio entre 7 y 14
         intAleatorio = aleatorio.nextInt(8) + 8;
-        
+
         press1.setVisible(false);
         press2.setVisible(false);
-        
-    }
 
+    }
 
     @Override
     public void notificar() {
@@ -150,10 +149,14 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
             panel.add(personajes.get(0));
             panel.add(personajes.get(1));
 
-            personajes.get(0).idle();
-            personajes.get(1).idle();
+            if (!personajes.get(0).muerto) {
+                personajes.get(0).idle();
+            }
+            if (!personajes.get(1).muerto) {
+                personajes.get(1).idle();
+            }
         } else {
-             JOptionPane.showMessageDialog(null, "GANO EL EQUIPO DERECHO! +20 de vida a sus personajes");
+            JOptionPane.showMessageDialog(null, "GANO EL EQUIPO DERECHO! +20 de vida a sus personajes");
             panel.remove(personajes.get(2));
             panel.remove(personajes.get(3));
 
@@ -161,11 +164,15 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
             personajes.set(2, (Personaje) grupos.grupo2.poblacion.get(0));
             personajes.set(3, (Personaje) grupos.grupo2.poblacion.get(1));
 
-            panel.add(personajes.get(2));
             panel.add(personajes.get(3));
+            panel.add(personajes.get(2));
 
-            personajes.get(2).idle();
-            personajes.get(3).idle();
+            if (!personajes.get(2).muerto) {
+                personajes.get(2).idle();
+            }
+            if (!personajes.get(3).muerto) {
+                personajes.get(3).idle();
+            }
         }
         actualizarVida();
         panel.repaint();
@@ -194,7 +201,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
             case 'z':
                 if (aparecioHuevo && contadorDer < 50 && contadorIzq < 50) {
                     contadorIzq++;
-                    press1.setText("PRESIONA LA Z: "+contadorIzq);
+                    press1.setText("PRESIONA LA Z: " + contadorIzq);
                     if (contadorIzq == 50) {
                         panel.remove(huevos.get(0));
                         grupos.grupo1.power = true;
@@ -206,7 +213,7 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
             case '3':
                 if (aparecioHuevo && contadorDer < 50 && contadorIzq < 50) {
                     contadorDer++;
-                    press2.setText("PRESIONA EL 3: "+contadorDer);
+                    press2.setText("PRESIONA EL 3: " + contadorDer);
                     if (contadorDer == 50) {
                         panel.remove(huevos.get(0));
                         grupos.grupo2.power = true;
@@ -419,10 +426,10 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
 
                     if (grupos.grupo1.isHere(personajes.get(i))) {
                         personajes.get(i).seleccionable = 1;
-                        selet1.setText("SELECCIONADO: "+personajes.get(i).getName());
+                        selet1.setText("SELECCIONADO: " + personajes.get(i).getName());
                     } else if (grupos.grupo2.isHere(personajes.get(i))) {
                         personajes.get(i).seleccionable = 1;
-                        selet2.setText("SELECCIONADO: "+personajes.get(i).getName());
+                        selet2.setText("SELECCIONADO: " + personajes.get(i).getName());
                     } else {
                         JOptionPane.showMessageDialog(null, "El personaje esta muerto");
                     }
@@ -496,11 +503,11 @@ public class FRM_Visor extends javax.swing.JFrame implements KeyListener, Observ
             personajes.get(prin).seleccionable = 0;
             invoker.ejecutarComandos();
             invoker.comando.clear();
-            
+
             //limpiar selecciones
             selet1.setText("SELECCIONADO: ");
             selet2.setText("SELECCIONADO: ");
-            
+
             //actualizar labels
             actualizarVida();
 
